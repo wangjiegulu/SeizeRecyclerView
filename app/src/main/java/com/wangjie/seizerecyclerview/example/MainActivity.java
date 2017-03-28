@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         feedRv = (RecyclerView) findViewById(R.id.activity_main_rv);
 
-        // The whole adapter of RecyclerView
+        // The whole origin adapter of RecyclerView
         adapter = new FeedAdapter();
 
         // attach seize adapters to origin adapter of RecyclerView

@@ -17,7 +17,8 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
 
     protected List<SeizeAdapter<VH>> seizeAdapters = new ArrayList<>();
 
-    public void setSeizeAdapters(SeizeAdapter<VH>... seizeAdapters) {
+    @SafeVarargs
+    public final void setSeizeAdapters(SeizeAdapter<VH>... seizeAdapters) {
         this.seizeAdapters = Arrays.asList(seizeAdapters);
         for (SeizeAdapter<VH> seizeAdapter : this.seizeAdapters) {
             seizeAdapter.setParentAdapter(this);
@@ -78,7 +79,7 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
     @Nullable
     private SeizePosition convertSeizePosition(int seizeAdapterIndex, int subPosition) {
         // TODO: 3/28/17 wangjie impl
-        return null;
+        throw new RuntimeException("Not supported!");
     }
 
     @Override
