@@ -26,15 +26,15 @@ public class FilmCommentSeizeViewHolder extends BaseRecyclerHolder {
         commentTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                seizeAdapter.getOnFilmCommentSeizeAdapterListener().onFilmCommentItemClick(seizeAdapter.getList().get(getSeizePosition().getSubPosition()), getSeizePosition());
+                seizeAdapter.getOnFilmCommentSeizeAdapterListener().onFilmCommentItemClick(seizeAdapter.getList().get(getSeizePosition().getSubSourcePosition()), getSeizePosition());
             }
         });
     }
 
     @Override
     public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
-        int subPosition = seizePosition.getSubPosition();
+        int subSourcePosition = seizePosition.getSubSourcePosition();
         int seizeAdapterIndex = seizePosition.getSeizeAdapterIndex();
-        commentTv.setText(seizeAdapterIndex + ", " + subPosition + " / " + seizeAdapter.getList().get(subPosition).getObj());
+        commentTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + seizeAdapter.getList().get(subSourcePosition).getObj());
     }
 }

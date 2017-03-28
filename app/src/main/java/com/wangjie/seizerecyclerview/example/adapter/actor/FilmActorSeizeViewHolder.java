@@ -27,7 +27,7 @@ public class FilmActorSeizeViewHolder extends BaseRecyclerHolder {
         actorTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                seizeAdapter.getOnFilmActorSeizeAdapterListener().onFilmActorItemClick(seizeAdapter.getList().get(getSeizePosition().getSubPosition()), getSeizePosition());
+                seizeAdapter.getOnFilmActorSeizeAdapterListener().onFilmActorItemClick(seizeAdapter.getList().get(getSeizePosition().getSubSourcePosition()), getSeizePosition());
             }
         });
 
@@ -35,8 +35,8 @@ public class FilmActorSeizeViewHolder extends BaseRecyclerHolder {
 
     @Override
     public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
-        int subPosition = seizePosition.getSubPosition();
+        int subSourcePosition = seizePosition.getSubSourcePosition();
         int seizeAdapterIndex = seizePosition.getSeizeAdapterIndex();
-        actorTv.setText(seizeAdapterIndex + ", " + subPosition + " / " + seizeAdapter.getList().get(subPosition).getObj());
+        actorTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + seizeAdapter.getList().get(subSourcePosition).getObj());
     }
 }

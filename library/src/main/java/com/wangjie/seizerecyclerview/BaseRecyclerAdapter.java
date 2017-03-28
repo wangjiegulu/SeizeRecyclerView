@@ -29,7 +29,7 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         SeizePosition seizePosition = convertSeizePosition(position);
         if (null != seizePosition) {
             return seizeAdapters.get(seizePosition.getSeizeAdapterIndex())
-                    .getItemViewType(seizePosition.getSubPosition());
+                    .getItemViewType(seizePosition);
         }
         return super.getItemViewType(position);
     }
@@ -63,11 +63,12 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         if (null != seizeAdapters) {
             int seizeLastPosition = 0;
             for (int i = 0, len = seizeAdapters.size(); i < len; i++) {
-                int count = seizeAdapters.get(i).getItemCount();
+                SeizeAdapter seizeAdapter = seizeAdapters.get(i);
+                int count = seizeAdapter.getItemCount();
                 seizeLastPosition += count;
                 if (seizeLastPosition > position) {
                     int subPosition = count - (seizeLastPosition - position);
-                    return new SeizePosition(i, position, subPosition);
+                    return new SeizePosition(i, position, subPosition, seizeAdapter.subPositionToSubSourcePosition(subPosition));
                 }
             }
         }

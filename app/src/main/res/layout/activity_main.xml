@@ -17,7 +17,7 @@
                 android:id="@+id/activity_main_actor_add_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="actorAdd"
+                android:onClick="addActors"
                 android:text="actor"
                 />
 
@@ -25,7 +25,7 @@
                 android:id="@+id/activity_main_comment_add_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="commentAdd"
+                android:onClick="addComments"
                 android:text="comment"
                 />
     </LinearLayout>

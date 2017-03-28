@@ -2,9 +2,9 @@ package com.wangjie.seizerecyclerview.example.adapter.actor;
 
 import android.view.ViewGroup;
 
+import com.wangjie.seizerecyclerview.BaseRecyclerHolder;
 import com.wangjie.seizerecyclerview.BaseSeizeAdapter;
 import com.wangjie.seizerecyclerview.SeizePosition;
-import com.wangjie.seizerecyclerview.BaseRecyclerHolder;
 import com.wangjie.seizerecyclerview.example.vm.actor.ActorVM;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/28/17.
  */
-public class FilmActorSeizeAdapter extends BaseSeizeAdapter<BaseRecyclerHolder> {
+public class FilmActorSeizeAdapter extends BaseSeizeAdapter {
     public interface OnFilmActorSeizeAdapterListener {
         void onFilmActorItemClick(ActorVM actorVM, SeizePosition seizePosition);
     }
@@ -45,12 +45,12 @@ public class FilmActorSeizeAdapter extends BaseSeizeAdapter<BaseRecyclerHolder> 
     }
 
     @Override
-    public int getItemViewType(int subPosition) {
-        return list.get(subPosition).getViewType();
+    public int getSourceItemViewType(int subSourcePosition) {
+        return list.get(subSourcePosition).getViewType();
     }
 
     @Override
-    public BaseRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseRecyclerHolder onCreateTypeViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case ActorVM.TYPE_ACTOR:
                 return new FilmActorSeizeViewHolder(this, parent);
@@ -60,7 +60,7 @@ public class FilmActorSeizeAdapter extends BaseSeizeAdapter<BaseRecyclerHolder> 
     }
 
     @Override
-    public int getItemCount() {
+    public int getSourceItemCount() {
         return list.size();
     }
 

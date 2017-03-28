@@ -14,7 +14,7 @@ public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
     boolean hasViewType(int viewType);
 
-    int getItemViewType(int subPosition);
+    int getItemViewType(SeizePosition seizePosition);
 
     VH onCreateViewHolder(ViewGroup parent, int viewType);
 
@@ -22,6 +22,12 @@ public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
     int getItemCount();
 
+    long getItemId(int position);
+
     void notifyDataSetChanged();
+
+    int subPositionToSubSourcePosition(int subPosition);
+
+    int subSourcePositionToSubPosition(int subSourcePosition);
 
 }

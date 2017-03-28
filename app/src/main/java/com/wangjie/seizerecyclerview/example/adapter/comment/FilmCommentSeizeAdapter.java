@@ -15,10 +15,11 @@ import java.util.List;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/28/17.
  */
-public class FilmCommentSeizeAdapter extends BaseSeizeAdapter<BaseRecyclerHolder> {
+public class FilmCommentSeizeAdapter extends BaseSeizeAdapter {
     public interface OnFilmCommentSeizeAdapterListener {
         void onFilmCommentItemClick(CommentVM commentVM, SeizePosition seizePosition);
     }
+
     private OnFilmCommentSeizeAdapterListener onFilmCommentSeizeAdapterListener;
 
     public void setOnFilmCommentSeizeAdapterListener(OnFilmCommentSeizeAdapterListener onFilmCommentSeizeAdapterListener) {
@@ -44,12 +45,12 @@ public class FilmCommentSeizeAdapter extends BaseSeizeAdapter<BaseRecyclerHolder
     }
 
     @Override
-    public int getItemViewType(int subPosition) {
-        return list.get(subPosition).getViewType();
+    public int getSourceItemViewType(int subSourcePosition) {
+        return list.get(subSourcePosition).getViewType();
     }
 
     @Override
-    public BaseRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseRecyclerHolder onCreateTypeViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case CommentVM.TYPE_COMMENT:
                 return new FilmCommentSeizeViewHolder(this, parent);
@@ -59,7 +60,7 @@ public class FilmCommentSeizeAdapter extends BaseSeizeAdapter<BaseRecyclerHolder
     }
 
     @Override
-    public int getItemCount() {
+    public int getSourceItemCount() {
         return list.size();
     }
 }
