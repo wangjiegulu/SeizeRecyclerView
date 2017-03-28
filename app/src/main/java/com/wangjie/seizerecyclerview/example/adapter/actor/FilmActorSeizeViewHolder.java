@@ -5,9 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.wangjie.seizerecyclerview.example.R;
-import com.wangjie.seizerecyclerview.SeizePosition;
 import com.wangjie.seizerecyclerview.BaseRecyclerHolder;
+import com.wangjie.seizerecyclerview.SeizePosition;
+import com.wangjie.seizerecyclerview.example.R;
 
 /**
  * Author: wangjie
@@ -17,8 +17,10 @@ import com.wangjie.seizerecyclerview.BaseRecyclerHolder;
 public class FilmActorSeizeViewHolder extends BaseRecyclerHolder {
     TextView actorTv;
     private FilmActorSeizeAdapter seizeAdapter;
+
     public FilmActorSeizeViewHolder(final FilmActorSeizeAdapter seizeAdapter, ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_film_actor, parent, false));
+        this.seizeAdapter = seizeAdapter;
 
         actorTv = (TextView) itemView.findViewById(R.id.item_film_actor_tv);
 
@@ -33,6 +35,8 @@ public class FilmActorSeizeViewHolder extends BaseRecyclerHolder {
 
     @Override
     public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
-
+        int subPosition = seizePosition.getSubPosition();
+        int seizeAdapterIndex = seizePosition.getSeizeAdapterIndex();
+        actorTv.setText(seizeAdapterIndex + ", " + subPosition + " / " + seizeAdapter.getList().get(subPosition).getObj());
     }
 }

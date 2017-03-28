@@ -17,7 +17,9 @@ import com.wangjie.seizerecyclerview.example.vm.comment.CommentVM;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements FilmActorSeizeAdapter.OnFilmActorSeizeAdapterListener {
+public class MainActivity extends AppCompatActivity implements
+        FilmActorSeizeAdapter.OnFilmActorSeizeAdapterListener,
+        FilmCommentSeizeAdapter.OnFilmCommentSeizeAdapterListener {
 
     private FeedAdapter adapter;
     private RecyclerView feedRv;
@@ -34,10 +36,11 @@ public class MainActivity extends AppCompatActivity implements FilmActorSeizeAda
         adapter = new FeedAdapter();
 
         adapter.setSeizeAdapters(
-                filmCommentSeizeAdapter = new FilmCommentSeizeAdapter(),
-                filmActorSeizeAdapter = new FilmActorSeizeAdapter()
+                filmActorSeizeAdapter = new FilmActorSeizeAdapter(),
+                filmCommentSeizeAdapter = new FilmCommentSeizeAdapter()
         );
         filmActorSeizeAdapter.setOnFilmActorSeizeAdapterListener(this);
+        filmCommentSeizeAdapter.setOnFilmCommentSeizeAdapterListener(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -73,7 +76,13 @@ public class MainActivity extends AppCompatActivity implements FilmActorSeizeAda
 
     @Override
     public void onFilmActorItemClick(ActorVM actorVM, SeizePosition seizePosition) {
-        toast.setText(actorVM.getObj() + ", " + seizePosition);
+        toast.setText(seizePosition.toString());
+        toast.show();
+    }
+
+    @Override
+    public void onFilmCommentItemClick(CommentVM commentVM, SeizePosition seizePosition) {
+        toast.setText(seizePosition.toString());
         toast.show();
     }
 }
