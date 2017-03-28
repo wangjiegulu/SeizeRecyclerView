@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements
 
         // set headers and footers for the film actor seize adapter
         filmActorSeizeAdapter.setOnFilmActorSeizeAdapterListener(this);
-        filmActorSeizeAdapter.setHeader(actorHeader = inflaterHeaderOrFooterAndBindClickEvents(R.layout.header_film_actor));
-        filmActorSeizeAdapter.setFooter(actorFooter = inflaterHeaderOrFooterAndBindClickEvents(R.layout.footer_film_actor));
+        filmActorSeizeAdapter.setHeader(actorHeader = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_actor));
+        filmActorSeizeAdapter.setFooter(actorFooter = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_actor));
 
         // set headers and footers for the film comment seize adapter
         filmCommentSeizeAdapter.setOnFilmCommentSeizeAdapterListener(this);
-        filmCommentSeizeAdapter.setHeader(commentHeader = inflaterHeaderOrFooterAndBindClickEvents(R.layout.header_film_comment));
-        filmCommentSeizeAdapter.setFooter(commentFooter = inflaterHeaderOrFooterAndBindClickEvents(R.layout.footer_film_comment));
+        filmCommentSeizeAdapter.setHeader(commentHeader = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_comment));
+        filmCommentSeizeAdapter.setFooter(commentFooter = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_comment));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements
         toast.setDuration(Toast.LENGTH_SHORT);
     }
 
-    private View inflaterHeaderOrFooterAndBindClickEvents(int resId) {
+    private View inflaterHeaderOrFooterAndBindClick(int resId) {
         View view = LayoutInflater.from(this).inflate(resId, null, false);
         view.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         view.setOnClickListener(this);
