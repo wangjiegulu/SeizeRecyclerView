@@ -7,33 +7,19 @@
         android:orientation="vertical"
         tools:context="com.wangjie.seizerecyclerview.example.MainActivity">
 
-    <LinearLayout
+    <Button
+            android:id="@+id/activity_main_to_basic_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:onClick="toBasicMode"
+            android:text="To basic mode"
+            />
 
-        <Button
-                android:id="@+id/activity_main_actor_add_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="addActors"
-                android:text="actor"
-                />
-
-        <Button
-                android:id="@+id/activity_main_comment_add_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="addComments"
-                android:text="comment"
-                />
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/activity_main_rv"
+    <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toMultiTypeMode"
+            android:text="To multi type Mode"
             />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.wangjie.seizerecyclerview.example.adapter;
+package com.wangjie.seizerecyclerview.example.basic.adapter;
 
 import com.wangjie.seizerecyclerview.BaseRecyclerAdapter;
 

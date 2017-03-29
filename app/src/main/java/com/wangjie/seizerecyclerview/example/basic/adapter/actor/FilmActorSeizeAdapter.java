@@ -1,4 +1,4 @@
-package com.wangjie.seizerecyclerview.example.adapter.actor;
+package com.wangjie.seizerecyclerview.example.basic.adapter.actor;
 
 import android.view.ViewGroup;
 

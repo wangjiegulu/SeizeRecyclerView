@@ -1,4 +1,4 @@
-package com.wangjie.seizerecyclerview.example.adapter.comment;
+package com.wangjie.seizerecyclerview.example.basic.adapter.comment;
 
 import android.view.LayoutInflater;
 import android.view.View;
