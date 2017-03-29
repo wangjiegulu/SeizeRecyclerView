@@ -2,6 +2,9 @@
 
 ### Use multiple adapters for a single RecyclerView.
 
+<img src='screenshot/basic.gif' height='500px'/>
+<img src='screenshot/multitype.gif' height='500px'/>
+
 ## How to use
 
 ```java
