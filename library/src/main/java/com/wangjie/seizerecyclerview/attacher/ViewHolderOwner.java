@@ -8,7 +8,7 @@ import com.wangjie.seizerecyclerview.BaseViewHolder;
 /**
  * Author: wangjie Email: tiantian.china.2@gmail.com Date: 3/2/17.
  */
-public abstract class ViewHolderOwner<T> {
+public abstract class ViewHolderOwner {
     private static final String TAG = ViewHolderOwner.class.getSimpleName();
     protected Context context;
 

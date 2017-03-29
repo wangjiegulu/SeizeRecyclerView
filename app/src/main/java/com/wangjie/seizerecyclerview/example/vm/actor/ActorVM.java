@@ -9,6 +9,8 @@ import com.wangjie.seizerecyclerview.example.vm.VM;
  */
 public class ActorVM extends VM<String> {
     public static final int TYPE_ACTOR = 10;
+    public static final int TYPE_ACTOR_A = 11;
+    public static final int TYPE_ACTOR_B = 12;
 
     public ActorVM(String obj) {
         super(obj);
@@ -17,5 +19,9 @@ public class ActorVM extends VM<String> {
     @Override
     public int getViewType() {
         return TYPE_ACTOR;
+    }
+
+    public int getActorViewType() {
+        return TYPE_ACTOR_A;
     }
 }

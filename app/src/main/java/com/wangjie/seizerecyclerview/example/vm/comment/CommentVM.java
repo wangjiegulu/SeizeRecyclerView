@@ -9,6 +9,8 @@ import com.wangjie.seizerecyclerview.example.vm.VM;
  */
 public class CommentVM extends VM<String> {
     public static final int TYPE_COMMENT = 20;
+    public static final int TYPE_COMMENT_A = 21;
+    public static final int TYPE_COMMENT_B = 22;
 
     public CommentVM(String obj) {
         super(obj);
@@ -17,5 +19,9 @@ public class CommentVM extends VM<String> {
     @Override
     public int getViewType() {
         return TYPE_COMMENT;
+    }
+
+    public int getCommentViewType() {
+        return TYPE_COMMENT_A;
     }
 }

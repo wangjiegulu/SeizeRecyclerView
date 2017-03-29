@@ -9,12 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.wangjie.seizerecyclerview.SeizePosition;
+import com.wangjie.seizerecyclerview.attacher.Func1R;
+import com.wangjie.seizerecyclerview.attacher.MultiSeizeAdapter;
 import com.wangjie.seizerecyclerview.example.R;
 import com.wangjie.seizerecyclerview.example.basic.adapter.FeedAdapter;
-import com.wangjie.seizerecyclerview.example.basic.adapter.actor.FilmActorSeizeAdapter;
-import com.wangjie.seizerecyclerview.example.basic.adapter.comment.FilmCommentSeizeAdapter;
+import com.wangjie.seizerecyclerview.example.multitype.adapter.actor.a.FilmActorAViewHolderOwner;
+import com.wangjie.seizerecyclerview.example.multitype.adapter.actor.b.FilmActorBViewHolderOwner;
+import com.wangjie.seizerecyclerview.example.multitype.adapter.comment.a.FilmCommentAViewHolderOwner;
+import com.wangjie.seizerecyclerview.example.multitype.adapter.comment.b.FilmCommentBViewHolderOwner;
+import com.wangjie.seizerecyclerview.example.vm.actor.ActorAVM;
+import com.wangjie.seizerecyclerview.example.vm.actor.ActorBVM;
 import com.wangjie.seizerecyclerview.example.vm.actor.ActorVM;
+import com.wangjie.seizerecyclerview.example.vm.comment.CommentAVM;
+import com.wangjie.seizerecyclerview.example.vm.comment.CommentBVM;
 import com.wangjie.seizerecyclerview.example.vm.comment.CommentVM;
 
 import java.util.ArrayList;
@@ -26,14 +33,12 @@ import java.util.List;
  * Date: 3/29/17.
  */
 public class MultiTypeActivity extends AppCompatActivity implements
-        FilmActorSeizeAdapter.OnFilmActorSeizeAdapterListener,
-        FilmCommentSeizeAdapter.OnFilmCommentSeizeAdapterListener,
         View.OnClickListener {
 
     private FeedAdapter adapter;
     private RecyclerView feedRv;
-    private FilmActorSeizeAdapter filmActorSeizeAdapter;
-    private FilmCommentSeizeAdapter filmCommentSeizeAdapter;
+    private MultiSeizeAdapter<ActorVM> filmActorSeizeAdapter;
+    private MultiSeizeAdapter<CommentVM> filmCommentSeizeAdapter;
     private Toast toast;
 
     private View headerView;
@@ -47,7 +52,7 @@ public class MultiTypeActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_type);
-        feedRv = (RecyclerView) findViewById(R.id.activity_basic_rv);
+        feedRv = (RecyclerView) findViewById(R.id.activity_multi_type_rv);
 
         // The whole origin adapter of RecyclerView
         adapter = new FeedAdapter();
@@ -55,21 +60,35 @@ public class MultiTypeActivity extends AppCompatActivity implements
         adapter.setHeader(headerView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film));
         adapter.setFooter(footerView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film));
 
-        // attach seize adapters to origin adapter of RecyclerView
-        adapter.setSeizeAdapters(
-                filmActorSeizeAdapter = new FilmActorSeizeAdapter(),
-                filmCommentSeizeAdapter = new FilmCommentSeizeAdapter()
-        );
-
         // set header and footer for the film actor seize adapter
-        filmActorSeizeAdapter.setOnFilmActorSeizeAdapterListener(this);
+        filmActorSeizeAdapter = new MultiSeizeAdapter<>();
         filmActorSeizeAdapter.setHeader(actorHeaderView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_actor));
         filmActorSeizeAdapter.setFooter(actorFooterView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_actor));
+        filmActorSeizeAdapter.setGetItemType(new Func1R<ActorVM, Integer>() {
+            @Override
+            public Integer call(ActorVM actorVM) {
+                return actorVM.getActorViewType();
+            }
+        });
+        filmActorSeizeAdapter.addSupportViewHolder(ActorVM.TYPE_ACTOR_A, new FilmActorAViewHolderOwner(this));
+        filmActorSeizeAdapter.addSupportViewHolder(ActorVM.TYPE_ACTOR_B, new FilmActorBViewHolderOwner(this));
 
         // set header and footer for the film comment seize adapter
-        filmCommentSeizeAdapter.setOnFilmCommentSeizeAdapterListener(this);
+        filmCommentSeizeAdapter = new MultiSeizeAdapter<>();
         filmCommentSeizeAdapter.setHeader(commentHeaderView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_comment));
         filmCommentSeizeAdapter.setFooter(commentFooterView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_comment));
+        filmCommentSeizeAdapter.setGetItemType(new Func1R<CommentVM, Integer>() {
+            @Override
+            public Integer call(CommentVM commentVM) {
+                return commentVM.getCommentViewType();
+            }
+        });
+        filmCommentSeizeAdapter.addSupportViewHolder(CommentVM.TYPE_COMMENT_A, new FilmCommentAViewHolderOwner(this));
+        filmCommentSeizeAdapter.addSupportViewHolder(CommentVM.TYPE_COMMENT_B, new FilmCommentBViewHolderOwner(this));
+
+        // attach seize adapters to origin adapter of RecyclerView
+        adapter.setSeizeAdapters(filmActorSeizeAdapter, filmCommentSeizeAdapter);
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -85,8 +104,14 @@ public class MultiTypeActivity extends AppCompatActivity implements
         List<ActorVM> list = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             long now = System.currentTimeMillis();
-            ActorVM actorVM = new ActorVM("actor_" + now);
+            ActorVM actorVM;
+            if (i % 2 == 0) {
+                actorVM = new ActorAVM("actor_" + now);
+            } else {
+                actorVM = new ActorBVM("actor_" + now);
+            }
             list.add(actorVM);
+
         }
         filmActorSeizeAdapter.addList(list);
         filmActorSeizeAdapter.notifyDataSetChanged();
@@ -96,24 +121,29 @@ public class MultiTypeActivity extends AppCompatActivity implements
         List<CommentVM> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             long now = System.currentTimeMillis();
-            CommentVM commentVM = new CommentVM("comment_" + now);
+            CommentVM commentVM;
+            if (i % 2 == 0) {
+                commentVM = new CommentAVM("comment_" + now);
+            } else {
+                commentVM = new CommentBVM("comment_" + now);
+            }
             list.add(commentVM);
         }
         filmCommentSeizeAdapter.addList(list);
         filmCommentSeizeAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onFilmActorItemClick(ActorVM actorVM, SeizePosition seizePosition) {
-        toast.setText(seizePosition.toString());
-        toast.show();
-    }
-
-    @Override
-    public void onFilmCommentItemClick(CommentVM commentVM, SeizePosition seizePosition) {
-        toast.setText(seizePosition.toString());
-        toast.show();
-    }
+//    @Override
+//    public void onFilmActorItemClick(ActorVM actorVM, SeizePosition seizePosition) {
+//        toast.setText(seizePosition.toString());
+//        toast.show();
+//    }
+//
+//    @Override
+//    public void onFilmCommentItemClick(CommentVM commentVM, SeizePosition seizePosition) {
+//        toast.setText(seizePosition.toString());
+//        toast.show();
+//    }
 
     @Override
     public void onClick(View v) {
