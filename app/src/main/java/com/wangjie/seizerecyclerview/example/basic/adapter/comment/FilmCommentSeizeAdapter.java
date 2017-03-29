@@ -2,7 +2,7 @@ package com.wangjie.seizerecyclerview.example.basic.adapter.comment;
 
 import android.view.ViewGroup;
 
-import com.wangjie.seizerecyclerview.BaseRecyclerHolder;
+import com.wangjie.seizerecyclerview.BaseViewHolder;
 import com.wangjie.seizerecyclerview.BaseSeizeAdapter;
 import com.wangjie.seizerecyclerview.SeizePosition;
 import com.wangjie.seizerecyclerview.example.vm.comment.CommentVM;
@@ -50,13 +50,18 @@ public class FilmCommentSeizeAdapter extends BaseSeizeAdapter {
     }
 
     @Override
-    public BaseRecyclerHolder onCreateTypeViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateTypeViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case CommentVM.TYPE_COMMENT:
                 return new FilmCommentSeizeViewHolder(this, parent);
             default:
                 return null;
         }
+    }
+
+    @Override
+    public Object getItem(int subSourcePosition) {
+        return list.get(subSourcePosition);
     }
 
     @Override

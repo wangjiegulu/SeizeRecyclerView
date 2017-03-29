@@ -7,13 +7,13 @@ import android.view.View;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/28/17.
  */
-public class EmptyViewHolder extends BaseRecyclerHolder{
+public class EmptyViewHolder extends BaseViewHolder {
     public EmptyViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
+    public void onBindViewHolder(BaseViewHolder holder, SeizePosition seizePosition) {
         // ignore
     }
 }

@@ -15,9 +15,9 @@ import java.util.List;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/23/17.
  */
-public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerHolder> {
+public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    protected List<SeizeAdapter<BaseRecyclerHolder>> seizeAdapters = new ArrayList<>();
+    protected List<SeizeAdapter<BaseViewHolder>> seizeAdapters = new ArrayList<>();
 
     private static final int TYPE_DEFAULT = 0x7682;
     private static final int TYPE_HEADER_VIEW = 0x7683;
@@ -35,15 +35,15 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
     }
 
     @SafeVarargs
-    public final void setSeizeAdapters(SeizeAdapter<BaseRecyclerHolder>... seizeAdapters) {
+    public final void setSeizeAdapters(SeizeAdapter<BaseViewHolder>... seizeAdapters) {
         this.seizeAdapters = Arrays.asList(seizeAdapters);
-        for (SeizeAdapter<BaseRecyclerHolder> seizeAdapter : this.seizeAdapters) {
+        for (SeizeAdapter<BaseViewHolder> seizeAdapter : this.seizeAdapters) {
             seizeAdapter.setParentAdapter(this);
         }
     }
 
     @Override
-    public final BaseRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_HEADER_VIEW:
                 return new EmptyViewHolder(headerView);
@@ -51,8 +51,8 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
                 return new EmptyViewHolder(footerView);
             default:
                 if (null != seizeAdapters) {
-                    for (SeizeAdapter<BaseRecyclerHolder> seizeAdapter : seizeAdapters) {
-                        BaseRecyclerHolder viewHolder;
+                    for (SeizeAdapter<BaseViewHolder> seizeAdapter : seizeAdapters) {
+                        BaseViewHolder viewHolder;
                         if (seizeAdapter.hasViewType(viewType)
                                 && null != (viewHolder = seizeAdapter.onCreateViewHolder(parent, viewType))
                                 ) {
@@ -84,7 +84,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
     }
 
     @Override
-    public final void onBindViewHolder(BaseRecyclerHolder holder, int position) {
+    public final void onBindViewHolder(BaseViewHolder holder, int position) {
         SeizePosition seizePosition = convertSeizePosition(position);
         if (null != seizePosition) {
             seizeAdapters.get(seizePosition.getSeizeAdapterIndex())
@@ -121,7 +121,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
     @Override
     public final int getItemCount() {
         int itemCount = getCount(headerView) + getCount(footerView);
-        List<SeizeAdapter<BaseRecyclerHolder>> childSeizeAdapters = seizeAdapters;
+        List<SeizeAdapter<BaseViewHolder>> childSeizeAdapters = seizeAdapters;
         if (null != childSeizeAdapters) {
             for (SeizeAdapter seizeAdapter : childSeizeAdapters) {
                 itemCount += seizeAdapter.getItemCount();

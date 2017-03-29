@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.wangjie.seizerecyclerview.BaseRecyclerHolder;
+import com.wangjie.seizerecyclerview.BaseViewHolder;
 import com.wangjie.seizerecyclerview.SeizePosition;
 import com.wangjie.seizerecyclerview.example.R;
 
@@ -14,7 +14,7 @@ import com.wangjie.seizerecyclerview.example.R;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/28/17.
  */
-public class FilmCommentSeizeViewHolder extends BaseRecyclerHolder {
+public class FilmCommentSeizeViewHolder extends BaseViewHolder {
     private FilmCommentSeizeAdapter seizeAdapter;
     TextView commentTv;
 
@@ -32,7 +32,7 @@ public class FilmCommentSeizeViewHolder extends BaseRecyclerHolder {
     }
 
     @Override
-    public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
+    public void onBindViewHolder(BaseViewHolder holder, SeizePosition seizePosition) {
         int subSourcePosition = seizePosition.getSubSourcePosition();
         int seizeAdapterIndex = seizePosition.getSeizeAdapterIndex();
         commentTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + seizeAdapter.getList().get(subSourcePosition).getObj());

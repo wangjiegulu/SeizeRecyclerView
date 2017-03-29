@@ -8,8 +8,8 @@ import android.view.View;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/28/17.
  */
-public abstract class BaseRecyclerHolder extends RecyclerView.ViewHolder {
-    public BaseRecyclerHolder(View itemView) {
+public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
+    public BaseViewHolder(View itemView) {
         super(itemView);
     }
 
@@ -19,10 +19,18 @@ public abstract class BaseRecyclerHolder extends RecyclerView.ViewHolder {
         return seizePosition;
     }
 
-    public final void onBindViewHolderInternal(BaseRecyclerHolder holder, SeizePosition seizePosition) {
+    public final void onBindViewHolderInternal(BaseViewHolder holder, SeizePosition seizePosition) {
         this.seizePosition = seizePosition;
         onBindViewHolder(holder, seizePosition);
     }
 
-    public abstract void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition);
+    public abstract void onBindViewHolder(BaseViewHolder holder, SeizePosition seizePosition);
+
+    public void onViewRecycled() {
+        // ignore
+    }
+
+    public void onViewDetachedFromWindow() {
+        // ignore
+    }
 }

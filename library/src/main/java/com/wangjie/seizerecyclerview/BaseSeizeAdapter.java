@@ -10,8 +10,20 @@ import android.view.ViewGroup;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/27/17.
  */
-public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolder> {
-    protected RecyclerView.Adapter<BaseRecyclerHolder> parentAdapter;
+public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
+    public interface OnSeizeAdapterListener {
+        BaseViewHolder onCreateTypeViewHolder(ViewGroup parent, int type);
+
+        int getSourceItemViewType(int subSourcePosition);
+    }
+
+    private OnSeizeAdapterListener onSeizeAdapterListener;
+
+    public void setOnSeizeAdapterListener(OnSeizeAdapterListener onSeizeAdapterListener) {
+        this.onSeizeAdapterListener = onSeizeAdapterListener;
+    }
+
+    protected RecyclerView.Adapter<BaseViewHolder> parentAdapter;
     private static final int TYPE_DEFAULT = 0x8682;
     private int typeHeaderDefault = -0x8683;
     private int typeFooterDefault = -0x8684;
@@ -31,11 +43,11 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolde
     }
 
     @Override
-    public final BaseRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return createTypeViewHolderInternal(parent, viewType);
     }
 
-    private BaseRecyclerHolder createTypeViewHolderInternal(ViewGroup parent, int viewType) {
+    private BaseViewHolder createTypeViewHolderInternal(ViewGroup parent, int viewType) {
         if (viewType == typeHeaderDefault) {
             return new EmptyViewHolder(headerView);
         } else if (viewType == typeFooterDefault) {
@@ -45,15 +57,20 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolde
         }
     }
 
-    public abstract BaseRecyclerHolder onCreateTypeViewHolder(ViewGroup parent, int type);
+    public BaseViewHolder onCreateTypeViewHolder(ViewGroup parent, int type) {
+        if (null != onSeizeAdapterListener) {
+            return onSeizeAdapterListener.onCreateTypeViewHolder(parent, type);
+        }
+        return null;
+    }
 
     @Override
-    public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
+    public void onBindViewHolder(BaseViewHolder holder, SeizePosition seizePosition) {
         holder.onBindViewHolderInternal(holder, seizePosition);
     }
 
     @Override
-    public void setParentAdapter(RecyclerView.Adapter<BaseRecyclerHolder> parentAdapter) {
+    public void setParentAdapter(RecyclerView.Adapter<BaseViewHolder> parentAdapter) {
         this.parentAdapter = parentAdapter;
     }
 
@@ -75,6 +92,8 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolde
     public long getItemId(int subPosition) {
         return subPosition;
     }
+
+    public abstract Object getItem(int subSourcePosition);
 
     @Override
     public final int getItemViewType(SeizePosition seizePosition) {
@@ -103,6 +122,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolde
     public abstract int getSourceItemCount();
 
     public int getSourceItemViewType(int subSourcePosition) {
+        if (null != onSeizeAdapterListener) {
+            return onSeizeAdapterListener.getSourceItemViewType(subSourcePosition);
+        }
         return TYPE_DEFAULT;
     }
 

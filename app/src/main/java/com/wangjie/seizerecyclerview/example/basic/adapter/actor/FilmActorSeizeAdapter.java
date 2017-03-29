@@ -2,7 +2,7 @@ package com.wangjie.seizerecyclerview.example.basic.adapter.actor;
 
 import android.view.ViewGroup;
 
-import com.wangjie.seizerecyclerview.BaseRecyclerHolder;
+import com.wangjie.seizerecyclerview.BaseViewHolder;
 import com.wangjie.seizerecyclerview.BaseSeizeAdapter;
 import com.wangjie.seizerecyclerview.SeizePosition;
 import com.wangjie.seizerecyclerview.example.vm.actor.ActorVM;
@@ -50,13 +50,18 @@ public class FilmActorSeizeAdapter extends BaseSeizeAdapter {
     }
 
     @Override
-    public BaseRecyclerHolder onCreateTypeViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateTypeViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case ActorVM.TYPE_ACTOR:
                 return new FilmActorSeizeViewHolder(this, parent);
             default:
                 return null;
         }
+    }
+
+    @Override
+    public Object getItem(int subSourcePosition) {
+        return list.get(subSourcePosition);
     }
 
     @Override
