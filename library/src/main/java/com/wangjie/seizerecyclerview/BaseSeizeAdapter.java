@@ -18,12 +18,14 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     private View headerView;
     private View footerView;
 
+    @Override
     public void setHeader(@NonNull View view) {
         headerView = view;
         // TODO: 3/29/17 wangjie optim
         typeHeaderDefault = this.hashCode();
     }
 
+    @Override
     public void setFooter(@NonNull View view) {
         footerView = view;
         // TODO: 3/29/17 wangjie optim
@@ -81,15 +83,25 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     @Override
     public final int getItemViewType(SeizePosition seizePosition) {
         int subPosition = seizePosition.getSubPosition();
-        int headerCount = getCount(headerView);
-        int footerCount = getCount(footerView);
-        if (0 != headerCount && subPosition <= headerCount - 1) {
+        if (isHeader(subPosition)) {
             return typeHeaderDefault;
-        } else if (0 != footerCount && subPosition >= getItemCount() - footerCount) {
+        } else if (isFooter(subPosition)) {
             return typeFooterDefault;
         } else {
             return getSourceItemViewType(seizePosition.getSubSourcePosition());
         }
+    }
+
+    @Override
+    public boolean isHeader(int subPosition) {
+        int headerCount = getCount(headerView);
+        return 0 != headerCount && subPosition <= headerCount - 1;
+    }
+
+    @Override
+    public boolean isFooter(int subPosition) {
+        int footerCount = getCount(footerView);
+        return 0 != footerCount && subPosition >= getItemCount() - footerCount;
     }
 
     @Override

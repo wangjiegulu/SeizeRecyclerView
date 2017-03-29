@@ -65,12 +65,10 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
     }
 
     @Override
-    public int getItemViewType(int position) {
-        int headerCount = getCount(headerView);
-        int footerCount = getCount(footerView);
-        if (0 != headerCount && position <= headerCount - 1) {
+    public final int getItemViewType(int position) {
+        if (isHeader(position)) {
             return TYPE_HEADER_VIEW;
-        } else if (0 != footerCount && position >= getItemCount() - footerCount) {
+        } else if (isFooter((position))) {
             return TYPE_FOOTER_VIEW;
         } else {
             SeizePosition seizePosition = convertSeizePosition(position);
@@ -83,6 +81,16 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
         return super.getItemViewType(position);
     }
 
+    public boolean isHeader(int position) {
+        int headerCount = getCount(headerView);
+        return 0 != headerCount && position <= headerCount - 1;
+    }
+
+    public boolean isFooter(int position) {
+        int footerCount = getCount(footerView);
+        return 0 != footerCount && position >= getItemCount() - footerCount;
+    }
+
     @Override
     public final void onBindViewHolder(BaseViewHolder holder, int position) {
         SeizePosition seizePosition = convertSeizePosition(position);
@@ -93,7 +101,16 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
     }
 
     @Nullable
-    private SeizePosition  convertSeizePosition(int position) {
+    public final SeizeAdapter<BaseViewHolder> getSeizeAdapter(int position) {
+        SeizePosition seizePosition = convertSeizePosition(position);
+        if (null != seizePosition) {
+            return seizeAdapters.get(seizePosition.getSeizeAdapterIndex());
+        }
+        return null;
+    }
+
+    @Nullable
+    public final SeizePosition convertSeizePosition(int position) {
         if (null != seizeAdapters) {
             int seizeLastPosition = getCount(headerView);
             for (int i = 0, len = seizeAdapters.size(); i < len; i++) {
@@ -113,7 +130,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
     }
 
     @Nullable
-    private SeizePosition convertSeizePosition(int seizeAdapterIndex, int subPosition) {
+    public final SeizePosition convertSeizePosition(int seizeAdapterIndex, int subPosition) {
         // TODO: 3/28/17 wangjie impl
         throw new RuntimeException("Not supported!");
     }
@@ -134,11 +151,11 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
         return null == view ? 0 : 1;
     }
 
-    public int positionToSourcePosition(int position) {
+    public final int positionToSourcePosition(int position) {
         return position - getCount(headerView);
     }
 
-    public int sourcePositionToPosition(int sourcePosition) {
+    public final int sourcePositionToPosition(int sourcePosition) {
         return sourcePosition + getCount(headerView);
     }
 }

@@ -2,6 +2,7 @@ package com.wangjie.seizerecyclerview.example.multitype;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.wangjie.seizerecyclerview.SeizeAdapter;
+import com.wangjie.seizerecyclerview.SeizePosition;
 import com.wangjie.seizerecyclerview.attacher.Func1R;
 import com.wangjie.seizerecyclerview.attacher.MultiSeizeAdapter;
 import com.wangjie.seizerecyclerview.example.R;
@@ -89,9 +92,25 @@ public class MultiTypeActivity extends AppCompatActivity implements
         // attach seize adapters to origin adapter of RecyclerView
         adapter.setSeizeAdapters(filmActorSeizeAdapter, filmCommentSeizeAdapter);
 
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                SeizePosition seizePosition = adapter.convertSeizePosition(position);
+                if (null != seizePosition) {
+                    SeizeAdapter ada = adapter.getSeizeAdapter(position);
+                    int subPosition = seizePosition.getSubPosition();
+                    if (ada == filmCommentSeizeAdapter
+                            && !filmCommentSeizeAdapter.isHeader(subPosition)
+                            && !filmCommentSeizeAdapter.isFooter(subPosition)
+                            ) {
+                        return 1;
+                    }
+                }
+                return 2;
+            }
+        });
         feedRv.setLayoutManager(layoutManager);
 
         // set origin adapter to RecyclerView

@@ -1,6 +1,8 @@
 package com.wangjie.seizerecyclerview;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -11,6 +13,14 @@ import android.view.ViewGroup;
 public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
     void setParentAdapter(RecyclerView.Adapter<VH> parentAdapter);
+
+    void setHeader(@NonNull View view);
+
+    void setFooter(@NonNull View view);
+
+    boolean isHeader(int subPosition);
+
+    boolean isFooter(int subPosition);
 
     boolean hasViewType(int viewType);
 
