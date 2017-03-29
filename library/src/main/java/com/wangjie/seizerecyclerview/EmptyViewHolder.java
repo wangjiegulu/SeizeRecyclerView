@@ -14,6 +14,6 @@ public class EmptyViewHolder extends BaseRecyclerHolder{
 
     @Override
     public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
-
+        // ignore
     }
 }

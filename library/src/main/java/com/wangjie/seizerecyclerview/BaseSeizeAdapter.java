@@ -12,26 +12,27 @@ import android.view.ViewGroup;
  */
 public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolder> {
     protected RecyclerView.Adapter<BaseRecyclerHolder> parentAdapter;
-    private static final int TYPE_DEFAULT = 0x7682;
-    private int typeHeaderDefault = -0x7683;
-    private int typeFooterDefault = -0x7684;
+    private static final int TYPE_DEFAULT = 0x8682;
+    private int typeHeaderDefault = -0x8683;
+    private int typeFooterDefault = -0x8684;
     private View headerView;
     private View footerView;
 
     public void setHeader(@NonNull View view) {
         headerView = view;
+        // TODO: 3/29/17 wangjie optim
         typeHeaderDefault = this.hashCode();
     }
 
     public void setFooter(@NonNull View view) {
         footerView = view;
+        // TODO: 3/29/17 wangjie optim
         typeFooterDefault = this.hashCode() - 1;
     }
 
     @Override
     public final BaseRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BaseRecyclerHolder holder = createTypeViewHolderInternal(parent, viewType);
-        return holder;
+        return createTypeViewHolderInternal(parent, viewType);
     }
 
     private BaseRecyclerHolder createTypeViewHolderInternal(ViewGroup parent, int viewType) {
@@ -43,6 +44,8 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolde
             return onCreateTypeViewHolder(parent, viewType);
         }
     }
+
+    public abstract BaseRecyclerHolder onCreateTypeViewHolder(ViewGroup parent, int type);
 
     @Override
     public void onBindViewHolder(BaseRecyclerHolder holder, SeizePosition seizePosition) {
@@ -57,13 +60,6 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolde
     @Override
     public boolean hasViewType(int viewType) {
         return true;
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        if (null != parentAdapter) {
-            parentAdapter.notifyDataSetChanged();
-        }
     }
 
     @Override
@@ -110,6 +106,11 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseRecyclerHolde
         return TYPE_DEFAULT;
     }
 
-    public abstract BaseRecyclerHolder onCreateTypeViewHolder(ViewGroup parent, int type);
+    @Override
+    public void notifyDataSetChanged() {
+        if (null != parentAdapter) {
+            parentAdapter.notifyDataSetChanged();
+        }
+    }
 
 }

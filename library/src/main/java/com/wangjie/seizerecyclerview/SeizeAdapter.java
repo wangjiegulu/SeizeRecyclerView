@@ -24,10 +24,10 @@ public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
     long getItemId(int position);
 
-    void notifyDataSetChanged();
-
     int subPositionToSubSourcePosition(int subPosition);
 
     int subSourcePositionToSubPosition(int subSourcePosition);
+
+    void notifyDataSetChanged();
 
 }

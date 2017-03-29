@@ -10,12 +10,14 @@ import java.io.Serializable;
 public class SeizePosition implements Serializable{
     private int seizeAdapterIndex;
     private int position;
+    private int sourcePosition;
     private int subPosition;
     private int subSourcePosition;
 
-    public SeizePosition(int seizeAdapterIndex, int position, int subPosition, int subSourcePosition) {
+    public SeizePosition(int seizeAdapterIndex, int position, int sourcePosition, int subPosition, int subSourcePosition) {
         this.seizeAdapterIndex = seizeAdapterIndex;
         this.position = position;
+        this.sourcePosition = sourcePosition;
         this.subPosition = subPosition;
         this.subSourcePosition = subSourcePosition;
     }
@@ -52,11 +54,20 @@ public class SeizePosition implements Serializable{
         this.subSourcePosition = subSourcePosition;
     }
 
+    public int getSourcePosition() {
+        return sourcePosition;
+    }
+
+    public void setSourcePosition(int sourcePosition) {
+        this.sourcePosition = sourcePosition;
+    }
+
     @Override
     public String toString() {
         return "SeizePosition{" +
                 "seizeAdapterIndex=" + seizeAdapterIndex +
                 ", position=" + position +
+                ", sourcePosition=" + sourcePosition +
                 ", subPosition=" + subPosition +
                 ", subSourcePosition=" + subSourcePosition +
                 '}';

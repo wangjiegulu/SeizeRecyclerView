@@ -5,10 +5,13 @@
 ## How to use
 
 ```java
-RecyclerView feedRv = (RecyclerView) findViewById(R.id.activity_main_rv);
+feedRv = (RecyclerView) findViewById(R.id.activity_main_rv);
 
 // The whole origin adapter of RecyclerView
-FeedAdapter adapter = new FeedAdapter();
+adapter = new FeedAdapter();
+// set header and footer for the whole origin adapter of RecyclerView
+adapter.setHeader(headerView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film));
+adapter.setFooter(footerView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film));
 
 // attach seize adapters to origin adapter of RecyclerView
 adapter.setSeizeAdapters(
@@ -16,15 +19,15 @@ adapter.setSeizeAdapters(
         filmCommentSeizeAdapter = new FilmCommentSeizeAdapter()
 );
 
-// set headers and footers for the film actor seize adapter
+// set header and footer for the film actor seize adapter
 filmActorSeizeAdapter.setOnFilmActorSeizeAdapterListener(this);
-filmActorSeizeAdapter.setHeader(actorHeader = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_actor));
-filmActorSeizeAdapter.setFooter(actorFooter = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_actor));
+filmActorSeizeAdapter.setHeader(actorHeaderView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_actor));
+filmActorSeizeAdapter.setFooter(actorFooterView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_actor));
 
-// set headers and footers for the film comment seize adapter
+// set header and footer for the film comment seize adapter
 filmCommentSeizeAdapter.setOnFilmCommentSeizeAdapterListener(this);
-filmCommentSeizeAdapter.setHeader(commentHeader = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_comment));
-filmCommentSeizeAdapter.setFooter(commentFooter = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_comment));
+filmCommentSeizeAdapter.setHeader(commentHeaderView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_comment));
+filmCommentSeizeAdapter.setFooter(commentFooterView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_comment));
 
 LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

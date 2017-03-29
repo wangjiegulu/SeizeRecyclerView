@@ -30,10 +30,12 @@ public class MainActivity extends AppCompatActivity implements
     private FilmCommentSeizeAdapter filmCommentSeizeAdapter;
     private Toast toast;
 
-    private View actorHeader;
-    private View actorFooter;
-    private View commentHeader;
-    private View commentFooter;
+    private View headerView;
+    private View footerView;
+    private View actorHeaderView;
+    private View actorFooterView;
+    private View commentHeaderView;
+    private View commentFooterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements
 
         // The whole origin adapter of RecyclerView
         adapter = new FeedAdapter();
+        // set header and footer for the whole origin adapter of RecyclerView
+        adapter.setHeader(headerView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film));
+        adapter.setFooter(footerView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film));
 
         // attach seize adapters to origin adapter of RecyclerView
         adapter.setSeizeAdapters(
@@ -50,15 +55,15 @@ public class MainActivity extends AppCompatActivity implements
                 filmCommentSeizeAdapter = new FilmCommentSeizeAdapter()
         );
 
-        // set headers and footers for the film actor seize adapter
+        // set header and footer for the film actor seize adapter
         filmActorSeizeAdapter.setOnFilmActorSeizeAdapterListener(this);
-        filmActorSeizeAdapter.setHeader(actorHeader = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_actor));
-        filmActorSeizeAdapter.setFooter(actorFooter = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_actor));
+        filmActorSeizeAdapter.setHeader(actorHeaderView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_actor));
+        filmActorSeizeAdapter.setFooter(actorFooterView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_actor));
 
-        // set headers and footers for the film comment seize adapter
+        // set header and footer for the film comment seize adapter
         filmCommentSeizeAdapter.setOnFilmCommentSeizeAdapterListener(this);
-        filmCommentSeizeAdapter.setHeader(commentHeader = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_comment));
-        filmCommentSeizeAdapter.setFooter(commentFooter = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_comment));
+        filmCommentSeizeAdapter.setHeader(commentHeaderView = inflaterHeaderOrFooterAndBindClick(R.layout.header_film_comment));
+        filmCommentSeizeAdapter.setFooter(commentFooterView = inflaterHeaderOrFooterAndBindClick(R.layout.footer_film_comment));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -106,16 +111,22 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        if (v == actorHeader) {
+        if (v == headerView) {
+            toast.setText("header clicked");
+            toast.show();
+        } else if (v == footerView) {
+            toast.setText("footer clicked");
+            toast.show();
+        } else if (v == actorHeaderView) {
             toast.setText("actor header clicked");
             toast.show();
-        } else if (v == actorFooter) {
+        } else if (v == actorFooterView) {
             toast.setText("actor footer clicked");
             toast.show();
-        } else if (v == commentHeader) {
+        } else if (v == commentHeaderView) {
             toast.setText("comment header clicked");
             toast.show();
-        } else if (v == commentFooter) {
+        } else if (v == commentFooterView) {
             toast.setText("comment footer clicked");
             toast.show();
         }
