@@ -17,7 +17,6 @@ import com.wangjie.seizerecyclerview.example.R;
  */
 public class FilmActorAViewHolder extends BaseViewHolder implements View.OnClickListener{
     public interface OnFilmActorAViewHolderListener {
-
         void onFilmActorAItemClick(int subSourcePosition);
     }
     private OnFilmActorAViewHolderListener onFilmActorAViewHolderListener;
@@ -30,7 +29,7 @@ public class FilmActorAViewHolder extends BaseViewHolder implements View.OnClick
     public FilmActorAViewHolder(ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_film_actor, parent, false));
         actorTv = (TextView) itemView.findViewById(R.id.item_film_actor_tv);
-        actorTv.setBackgroundColor(Color.BLUE);
+        actorTv.setBackgroundColor(Color.RED);
         actorTv.setOnClickListener(this);
     }
 

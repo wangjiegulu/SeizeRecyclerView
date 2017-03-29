@@ -26,6 +26,6 @@ public class FilmActorAViewHolderOwner extends ViewHolderOwner implements FilmAc
 
     @Override
     public void onFilmActorAItemClick(int subSourcePosition) {
-        Toast.makeText(context, "A " + subSourcePosition + " clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "A actor " + subSourcePosition + " clicked", Toast.LENGTH_SHORT).show();
     }
 }

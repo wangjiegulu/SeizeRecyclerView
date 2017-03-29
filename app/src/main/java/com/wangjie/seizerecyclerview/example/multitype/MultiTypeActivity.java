@@ -20,11 +20,11 @@ import com.wangjie.seizerecyclerview.example.multitype.adapter.actor.a.FilmActor
 import com.wangjie.seizerecyclerview.example.multitype.adapter.actor.b.FilmActorBViewHolderOwner;
 import com.wangjie.seizerecyclerview.example.multitype.adapter.comment.a.FilmCommentAViewHolderOwner;
 import com.wangjie.seizerecyclerview.example.multitype.adapter.comment.b.FilmCommentBViewHolderOwner;
-import com.wangjie.seizerecyclerview.example.vm.actor.ActorAVM;
-import com.wangjie.seizerecyclerview.example.vm.actor.ActorBVM;
+import com.wangjie.seizerecyclerview.example.multitype.vm.actor.ActorAVM;
+import com.wangjie.seizerecyclerview.example.multitype.vm.actor.ActorBVM;
 import com.wangjie.seizerecyclerview.example.vm.actor.ActorVM;
-import com.wangjie.seizerecyclerview.example.vm.comment.CommentAVM;
-import com.wangjie.seizerecyclerview.example.vm.comment.CommentBVM;
+import com.wangjie.seizerecyclerview.example.multitype.vm.comment.CommentAVM;
+import com.wangjie.seizerecyclerview.example.multitype.vm.comment.CommentBVM;
 import com.wangjie.seizerecyclerview.example.vm.comment.CommentVM;
 
 import java.util.ArrayList;
@@ -151,18 +151,6 @@ public class MultiTypeActivity extends AppCompatActivity implements
         filmCommentSeizeAdapter.addList(list);
         filmCommentSeizeAdapter.notifyDataSetChanged();
     }
-
-//    @Override
-//    public void onFilmActorItemClick(ActorVM actorVM, SeizePosition seizePosition) {
-//        toast.setText(seizePosition.toString());
-//        toast.show();
-//    }
-//
-//    @Override
-//    public void onFilmCommentItemClick(CommentVM commentVM, SeizePosition seizePosition) {
-//        toast.setText(seizePosition.toString());
-//        toast.show();
-//    }
 
     @Override
     public void onClick(View v) {
