@@ -1,10 +1,11 @@
 package com.wangjie.seizerecyclerview;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.wangjie.seizerecyclerview.attacher.FuncR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,7 @@ import java.util.List;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/23/17.
  */
-public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     protected List<SeizeAdapter<BaseViewHolder>> seizeAdapters = new ArrayList<>();
 
@@ -26,11 +27,13 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
     private View headerView;
     private View footerView;
 
-    public void setHeader(@NonNull View view) {
+    private FuncR<BaseViewHolder> defaultViewHolderFunc;
+
+    public void setHeader(View view) {
         headerView = view;
     }
 
-    public void setFooter(@NonNull View view) {
+    public void setFooter(View view) {
         footerView = view;
     }
 
@@ -61,7 +64,15 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewH
                     }
                 }
         }
-        return null;
+        return createDefaultViewHolder(parent);
+    }
+
+    private BaseViewHolder createDefaultViewHolder(ViewGroup parent) {
+        return null == defaultViewHolderFunc ? new EmptyViewHolder(new View(parent.getContext())) : defaultViewHolderFunc.call();
+    }
+
+    public void setDefaultViewHolderFunc(FuncR<BaseViewHolder> defaultViewHolderFunc) {
+        this.defaultViewHolderFunc = defaultViewHolderFunc;
     }
 
     @Override

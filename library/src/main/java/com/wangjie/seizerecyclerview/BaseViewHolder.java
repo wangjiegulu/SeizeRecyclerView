@@ -19,7 +19,7 @@ public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
         return seizePosition;
     }
 
-    public final void onBindViewHolderInternal(BaseViewHolder holder, SeizePosition seizePosition) {
+    final void onBindViewHolderInternal(BaseViewHolder holder, SeizePosition seizePosition) {
         this.seizePosition = seizePosition;
         onBindViewHolder(holder, seizePosition);
     }

@@ -1,6 +1,9 @@
 package com.wangjie.seizerecyclerview.attacher;
 
+import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.wangjie.seizerecyclerview.BaseSeizeAdapter;
@@ -68,7 +71,7 @@ public class MultiSeizeAdapter<T> extends BaseSeizeAdapter {
     }
 
     @Override
-    public Object getItem(int subSourcePosition) {
+    public T getItem(int subSourcePosition) {
         return list.get(subSourcePosition);
     }
 
@@ -77,5 +80,40 @@ public class MultiSeizeAdapter<T> extends BaseSeizeAdapter {
         return list.size();
     }
 
+    /**
+     * ViewHolderOwner与RecyclerView周期绑定
+     */
+    public void attachToRecyclerView(RecyclerView recyclerView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            recyclerView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+                    for (int i = 0, size = viewHolderOwnerMap.size(); i < size; i++) {
+                        viewHolderOwnerMap.get(viewHolderOwnerMap.keyAt(i)).onParentViewDetachedFromWindow();
+                    }
+                }
 
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+                    for (int i = 0, size = viewHolderOwnerMap.size(); i < size; i++) {
+                        viewHolderOwnerMap.get(viewHolderOwnerMap.keyAt(i)).onParentViewDetachedFromWindow();
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 通过item获取对应的类型
+     */
+    public int getSourceItemViewType(T item) {
+        return null == getItemType ? TYPE_DEFAULT : getItemType.call(item);
+    }
+
+    @Override
+    public boolean hasViewType(int viewType) {
+        return typeHeaderDefault == viewType
+                || typeFooterDefault == viewType
+                || null != viewHolderOwnerMap.get(viewType);
+    }
 }

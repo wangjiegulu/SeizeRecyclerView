@@ -19,9 +19,9 @@ allprojects {
     ext {
         global_compileSdkVersion = 25
         global_buildToolsVersion = "25.0.0"
-        global_minSdkVersion = 14
+        global_minSdkVersion = 11
         global_targetSdkVersion = 25
-        global_supportVersion = '25.0.0'
+        global_supportVersion = '25.3.1'
         global_junitVersion = '4.12'
         global_espressoVersion = '2.2.2'
     }

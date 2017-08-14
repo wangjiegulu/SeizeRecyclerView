@@ -1,7 +1,8 @@
 package com.wangjie.seizerecyclerview;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,32 +12,40 @@ import android.view.ViewGroup;
  * Date: 3/27/17.
  */
 public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
+    private static final String TAG = BaseSeizeAdapter.class.getSimpleName();
     protected RecyclerView.Adapter<BaseViewHolder> parentAdapter;
-    private static final int TYPE_DEFAULT = 0x8682;
-    private int typeHeaderDefault = -0x8683;
-    private int typeFooterDefault = -0x8684;
+    public static final int TYPE_DEFAULT = 0x8682;
+    protected int typeHeaderDefault = -0x8683;
+    protected int typeFooterDefault = -0x8684;
     private View headerView;
     private View footerView;
 
     @Override
-    public void setHeader(@NonNull View view) {
+    public void setHeader(View view) {
         headerView = view;
         // TODO: 3/29/17 wangjie optim
         typeHeaderDefault = this.hashCode();
     }
 
     @Override
-    public void setFooter(@NonNull View view) {
+    public void setFooter(View view) {
         footerView = view;
         // TODO: 3/29/17 wangjie optim
         typeFooterDefault = this.hashCode() - 1;
     }
 
     @Override
+    @Nullable
     public final BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return createTypeViewHolderInternal(parent, viewType);
+        try {
+            return createTypeViewHolderInternal(parent, viewType);
+        } catch (Throwable throwable) {
+            Log.e(TAG, "onCreateViewHolder", throwable);
+        }
+        return null;
     }
 
+    @Nullable
     private BaseViewHolder createTypeViewHolderInternal(ViewGroup parent, int viewType) {
         if (viewType == typeHeaderDefault) {
             return new EmptyViewHolder(headerView);
@@ -47,11 +56,16 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         }
     }
 
+    @Nullable
     public abstract BaseViewHolder onCreateTypeViewHolder(ViewGroup parent, int type);
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, SeizePosition seizePosition) {
-        holder.onBindViewHolderInternal(holder, seizePosition);
+        try {
+            holder.onBindViewHolderInternal(holder, seizePosition);
+        } catch (Throwable throwable) {
+            Log.e(TAG, "onBindViewHolder", throwable);
+        }
     }
 
     @Override
