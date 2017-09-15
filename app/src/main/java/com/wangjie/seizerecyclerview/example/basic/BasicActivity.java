@@ -88,8 +88,11 @@ public class BasicActivity extends AppCompatActivity implements
             ActorVM actorVM = new ActorVM("actor_" + now);
             list.add(actorVM);
         }
+        int size = filmActorSeizeAdapter.getList().size();
         filmActorSeizeAdapter.addList(list);
-        filmActorSeizeAdapter.notifyDataSetChanged();
+        filmActorSeizeAdapter.notifyItemRangeInserted(size, list.size());
+        filmActorSeizeAdapter.notifyItemRangeChanged(size, list.size());
+//        filmActorSeizeAdapter.notifyDataSetChanged();
     }
 
     public void addComments(View view) {
@@ -99,8 +102,12 @@ public class BasicActivity extends AppCompatActivity implements
             CommentVM commentVM = new CommentVM("comment_" + now);
             list.add(commentVM);
         }
+        int size = filmCommentSeizeAdapter.getList().size();
         filmCommentSeizeAdapter.addList(list);
-        filmCommentSeizeAdapter.notifyDataSetChanged();
+        filmCommentSeizeAdapter.notifyItemRangeInserted(size, list.size());
+        filmCommentSeizeAdapter.notifyItemRangeChanged(size, list.size());
+//        filmCommentSeizeAdapter.addList(list);
+//        filmCommentSeizeAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -32,4 +32,4 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$global_supportVersion"
 }
 
-apply from: 'nexus_aar_db.gradle'
+//apply from: 'nexus_aar_db.gradle'
