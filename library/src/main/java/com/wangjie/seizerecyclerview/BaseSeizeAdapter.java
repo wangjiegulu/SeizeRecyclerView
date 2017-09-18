@@ -136,7 +136,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     private int getParentPosition(int positionStart) {
-        int position = (parentAdapter.getHeaderView() == null ? 0 : 1) + positionStart + getCount(headerView);
+        int position = (parentAdapter.getHeaderView() == null ? 0 : 1) + getCount(headerView) + positionStart;
         List<SeizeAdapter<BaseViewHolder>> seizeAdapters = parentAdapter.getSeizeAdapters();
         if (seizeAdapters == null) {
             return position;
