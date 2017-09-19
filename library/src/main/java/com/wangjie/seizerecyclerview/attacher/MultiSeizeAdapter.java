@@ -89,7 +89,7 @@ public class MultiSeizeAdapter<T> extends BaseSeizeAdapter {
                 @Override
                 public void onViewAttachedToWindow(View v) {
                     for (int i = 0, size = viewHolderOwnerMap.size(); i < size; i++) {
-                        viewHolderOwnerMap.get(viewHolderOwnerMap.keyAt(i)).onParentViewDetachedFromWindow();
+                        viewHolderOwnerMap.get(viewHolderOwnerMap.keyAt(i)).onParentViewAttachedToWindow();
                     }
                 }
 
