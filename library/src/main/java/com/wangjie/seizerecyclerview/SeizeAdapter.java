@@ -39,6 +39,9 @@ public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
     int subSourcePositionToSubPosition(int subSourcePosition);
 
+    /**
+     * parentAdapter刷新
+     */
     void notifyDataSetChanged();
 
     void notifyItemRangeInserted(int positionStart, int itemCount);
@@ -58,5 +61,15 @@ public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
     void notifyItemRangeRemoved(int positionStart, int itemCount);
 
     void notifyItemRemoved(int position);
+
+    /**
+     * insert include headView footView
+     */
+    void notifyDataSetInsert();
+
+    /**
+     * notify include headView footView
+     */
+    void notifyDataSetRangeChanged();
 
 }

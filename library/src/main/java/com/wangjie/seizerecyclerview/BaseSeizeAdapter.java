@@ -136,7 +136,11 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     private int getParentPosition(int positionStart) {
-        int position = (parentAdapter.getHeaderView() == null ? 0 : 1) + getCount(headerView) + positionStart;
+        return getParentPositionWithoutSelfHeadView(positionStart) + getCount(headerView);
+    }
+
+    private int getParentPositionWithoutSelfHeadView(int positionStart) {
+        int position = (parentAdapter.getHeaderView() == null ? 0 : 1) + positionStart;
         List<SeizeAdapter<BaseViewHolder>> seizeAdapters = parentAdapter.getSeizeAdapters();
         if (seizeAdapters == null) {
             return position;
@@ -211,4 +215,15 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         parentAdapter.notifyItemRemoved(positionParent);
     }
 
+    @Override
+    public void notifyDataSetInsert() {
+        int positionStart = getParentPositionWithoutSelfHeadView(0);
+        parentAdapter.notifyItemRangeInserted(positionStart, getItemCount());
+    }
+
+    @Override
+    public void notifyDataSetRangeChanged() {
+        int positionStart = getParentPositionWithoutSelfHeadView(0);
+        parentAdapter.notifyItemRangeChanged(positionStart, getItemCount());
+    }
 }
