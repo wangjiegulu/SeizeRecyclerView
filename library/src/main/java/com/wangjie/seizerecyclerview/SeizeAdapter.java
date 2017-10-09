@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  */
 public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
-    void setParentAdapter(RecyclerView.Adapter<VH> parentAdapter);
+    void setParentAdapter(BaseRecyclerAdapter parentAdapter);
 
     void setHeader(View view);
 
@@ -39,6 +39,37 @@ public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
     int subSourcePositionToSubPosition(int subSourcePosition);
 
+    /**
+     * parentAdapter刷新
+     */
     void notifyDataSetChanged();
+
+    void notifyItemRangeInserted(int positionStart, int itemCount);
+
+    void notifyItemInserted(int positionStart);
+
+    void notifyItemRangeChanged(int positionStart, int itemCount);
+
+    void notifyItemRangeChanged(int positionStart, int itemCount, Object payload);
+
+    void notifyItemChanged(int positionStart);
+
+    void notifyItemChanged(int positionStart, Object payload);
+
+    void notifyItemMoved(int fromPosition, int toPosition);
+
+    void notifyItemRangeRemoved(int positionStart, int itemCount);
+
+    void notifyItemRemoved(int position);
+
+    /**
+     * insert include headView footView
+     */
+    void notifyDataSetInsert();
+
+    /**
+     * notify include headView footView
+     */
+    void notifyDataSetRangeChanged();
 
 }

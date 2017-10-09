@@ -1,10 +1,11 @@
 package com.wangjie.seizerecyclerview;
 
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
 
 /**
  * Author: wangjie
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
  */
 public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     private static final String TAG = BaseSeizeAdapter.class.getSimpleName();
-    protected RecyclerView.Adapter<BaseViewHolder> parentAdapter;
+    protected BaseRecyclerAdapter parentAdapter;
     public static final int TYPE_DEFAULT = 0x8682;
     protected int typeHeaderDefault = -0x8683;
     protected int typeFooterDefault = -0x8684;
@@ -69,7 +70,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     @Override
-    public void setParentAdapter(RecyclerView.Adapter<BaseViewHolder> parentAdapter) {
+    public void setParentAdapter(BaseRecyclerAdapter parentAdapter) {
         this.parentAdapter = parentAdapter;
     }
 
@@ -134,6 +135,25 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         return TYPE_DEFAULT;
     }
 
+    private int getParentPosition(int positionStart) {
+        return getParentPositionWithoutSelfHeadView(positionStart) + getCount(headerView);
+    }
+
+    private int getParentPositionWithoutSelfHeadView(int positionStart) {
+        int position = (parentAdapter.getHeaderView() == null ? 0 : 1) + positionStart;
+        List<SeizeAdapter<BaseViewHolder>> seizeAdapters = parentAdapter.getSeizeAdapters();
+        if (seizeAdapters == null) {
+            return position;
+        }
+        for (SeizeAdapter<BaseViewHolder> seizeAdapter : seizeAdapters) {
+            if (seizeAdapter == this) {
+                break;
+            }
+            position += seizeAdapter.getItemCount();
+        }
+        return position;
+    }
+
     @Override
     public void notifyDataSetChanged() {
         if (null != parentAdapter) {
@@ -141,4 +161,69 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         }
     }
 
+    @Override
+    public void notifyItemRangeInserted(int positionStart, int itemCount) {
+        int positionParent = getParentPosition(positionStart);
+        parentAdapter.notifyItemRangeInserted(positionParent, itemCount);
+    }
+
+    @Override
+    public void notifyItemInserted(int position) {
+        int positionParent = getParentPosition(position);
+        parentAdapter.notifyItemInserted(positionParent);
+    }
+
+    @Override
+    public void notifyItemRangeChanged(int positionStart, int itemCount) {
+        int positionParent = getParentPosition(positionStart);
+        parentAdapter.notifyItemRangeChanged(positionParent, itemCount);
+    }
+
+    @Override
+    public void notifyItemRangeChanged(int positionStart, int itemCount, Object payload) {
+        int positionParent = getParentPosition(positionStart);
+        parentAdapter.notifyItemRangeChanged(positionParent, itemCount, payload);
+    }
+
+    @Override
+    public void notifyItemChanged(int position) {
+        int positionParent = getParentPosition(position);
+        parentAdapter.notifyItemChanged(positionParent);
+    }
+
+    @Override
+    public void notifyItemChanged(int positionStart, Object payload) {
+        int positionParent = getParentPosition(positionStart);
+        parentAdapter.notifyItemChanged(positionParent, payload);
+    }
+
+    @Override
+    public void notifyItemMoved(int fromPosition, int toPosition) {
+        int positionParent = getParentPosition(fromPosition);
+        parentAdapter.notifyItemMoved(positionParent, toPosition);
+    }
+
+    @Override
+    public void notifyItemRangeRemoved(int positionStart, int itemCount) {
+        int positionParent = getParentPosition(positionStart);
+        parentAdapter.notifyItemRangeRemoved(positionParent, itemCount);
+    }
+
+    @Override
+    public void notifyItemRemoved(int position) {
+        int positionParent = getParentPosition(position);
+        parentAdapter.notifyItemRemoved(positionParent);
+    }
+
+    @Override
+    public void notifyDataSetInsert() {
+        int positionStart = getParentPositionWithoutSelfHeadView(0);
+        parentAdapter.notifyItemRangeInserted(positionStart, getItemCount());
+    }
+
+    @Override
+    public void notifyDataSetRangeChanged() {
+        int positionStart = getParentPositionWithoutSelfHeadView(0);
+        parentAdapter.notifyItemRangeChanged(positionStart, getItemCount());
+    }
 }

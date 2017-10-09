@@ -104,7 +104,7 @@ public class MultiSeizeAdapter<T> extends BaseSeizeAdapter {
     }
 
     /**
-     * 通过item获取对应的类型
+     * get type by item
      */
     public int getSourceItemViewType(T item) {
         return null == getItemType ? TYPE_DEFAULT : getItemType.call(item);

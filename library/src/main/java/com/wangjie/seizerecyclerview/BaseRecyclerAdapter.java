@@ -121,6 +121,16 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Nullable
+    public final List<SeizeAdapter<BaseViewHolder>> getSeizeAdapters() {
+        return seizeAdapters;
+    }
+
+    @Nullable
+    public final View getHeaderView() {
+        return headerView;
+    }
+
+    @Nullable
     public final SeizePosition convertSeizePosition(int position) {
         if (null != seizeAdapters) {
             int seizeLastPosition = getCount(headerView);
