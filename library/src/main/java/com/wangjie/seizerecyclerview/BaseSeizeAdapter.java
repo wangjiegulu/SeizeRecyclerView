@@ -49,9 +49,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     @Nullable
     private BaseViewHolder createTypeViewHolderInternal(ViewGroup parent, int viewType) {
         if (viewType == typeHeaderDefault) {
-            return new EmptyViewHolder(headerView);
+            return EmptyViewHolder.newInstance(headerView);
         } else if (viewType == typeFooterDefault) {
-            return new EmptyViewHolder(footerView);
+            return EmptyViewHolder.newInstance(footerView);
         } else {
             return onCreateTypeViewHolder(parent, viewType);
         }

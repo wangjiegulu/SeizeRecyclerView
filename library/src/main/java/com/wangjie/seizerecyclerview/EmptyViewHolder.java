@@ -1,6 +1,7 @@
 package com.wangjie.seizerecyclerview;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Author: wangjie
@@ -8,7 +9,15 @@ import android.view.View;
  * Date: 3/28/17.
  */
 public class EmptyViewHolder extends BaseViewHolder {
-    public EmptyViewHolder(View itemView) {
+
+    public static EmptyViewHolder newInstance(View itemView) {
+        if (itemView != null && itemView.getParent() instanceof ViewGroup) {
+            ((ViewGroup) itemView.getParent()).removeView(itemView);
+        }
+        return new EmptyViewHolder(itemView);
+    }
+
+    private EmptyViewHolder(View itemView) {
         super(itemView);
     }
 

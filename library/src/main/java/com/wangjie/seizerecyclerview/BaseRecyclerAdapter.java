@@ -49,9 +49,9 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public final BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_HEADER_VIEW:
-                return new EmptyViewHolder(headerView);
+                return EmptyViewHolder.newInstance(headerView);
             case TYPE_FOOTER_VIEW:
-                return new EmptyViewHolder(footerView);
+                return EmptyViewHolder.newInstance(footerView);
             default:
                 if (null != seizeAdapters) {
                     for (SeizeAdapter<BaseViewHolder> seizeAdapter : seizeAdapters) {
@@ -68,7 +68,7 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     private BaseViewHolder createDefaultViewHolder(ViewGroup parent) {
-        return null == defaultViewHolderFunc ? new EmptyViewHolder(new View(parent.getContext())) : defaultViewHolderFunc.call();
+        return null == defaultViewHolderFunc ? EmptyViewHolder.newInstance(new View(parent.getContext())) : defaultViewHolderFunc.call();
     }
 
     public void setDefaultViewHolderFunc(FuncR<BaseViewHolder> defaultViewHolderFunc) {
