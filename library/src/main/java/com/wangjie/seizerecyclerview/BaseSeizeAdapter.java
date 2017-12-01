@@ -154,6 +154,26 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         return position;
     }
 
+    private int getItemCountWithLeftSeizeAdapter(int itemCount) {
+        itemCount = itemCount + getCount(footerView);
+        List<SeizeAdapter<BaseViewHolder>> seizeAdapters = parentAdapter.getSeizeAdapters();
+        if (seizeAdapters == null) {
+            return itemCount;
+        }
+        boolean findCurrentSeizeAdapter = false;
+        for (SeizeAdapter seizeAdapter : seizeAdapters) {
+            if (seizeAdapter == this) {
+                findCurrentSeizeAdapter = true;
+                continue;
+            }
+            if (!findCurrentSeizeAdapter) {
+                continue;
+            }
+            itemCount = itemCount + seizeAdapter.getItemCount();
+        }
+        return itemCount;
+    }
+
     @Override
     public void notifyDataSetChanged() {
         if (null != parentAdapter) {
@@ -164,7 +184,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     @Override
     public void notifyItemRangeInserted(int positionStart, int itemCount) {
         int positionParent = getParentPosition(positionStart);
-        parentAdapter.notifyItemRangeInserted(positionParent, itemCount);
+        parentAdapter.notifyItemRangeInserted(positionParent, getItemCountWithLeftSeizeAdapter(itemCount));
     }
 
     @Override
@@ -176,13 +196,13 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     @Override
     public void notifyItemRangeChanged(int positionStart, int itemCount) {
         int positionParent = getParentPosition(positionStart);
-        parentAdapter.notifyItemRangeChanged(positionParent, itemCount);
+        parentAdapter.notifyItemRangeChanged(positionParent, getItemCountWithLeftSeizeAdapter(itemCount));
     }
 
     @Override
     public void notifyItemRangeChanged(int positionStart, int itemCount, Object payload) {
         int positionParent = getParentPosition(positionStart);
-        parentAdapter.notifyItemRangeChanged(positionParent, itemCount, payload);
+        parentAdapter.notifyItemRangeChanged(positionParent, getItemCountWithLeftSeizeAdapter(itemCount), payload);
     }
 
     @Override
@@ -200,13 +220,13 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     @Override
     public void notifyItemMoved(int fromPosition, int toPosition) {
         int positionParent = getParentPosition(fromPosition);
-        parentAdapter.notifyItemMoved(positionParent, toPosition);
+        parentAdapter.notifyItemMoved(positionParent, getParentPosition(toPosition));
     }
 
     @Override
     public void notifyItemRangeRemoved(int positionStart, int itemCount) {
         int positionParent = getParentPosition(positionStart);
-        parentAdapter.notifyItemRangeRemoved(positionParent, itemCount);
+        parentAdapter.notifyItemRangeRemoved(positionParent, getItemCountWithLeftSeizeAdapter(itemCount));
     }
 
     @Override
@@ -217,13 +237,13 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
 
     @Override
     public void notifyDataSetInsert() {
-        int positionStart = getParentPositionWithoutSelfHeadView(0);
-        parentAdapter.notifyItemRangeInserted(positionStart, getItemCount());
+        int positionStart = getParentPosition(0);
+        parentAdapter.notifyItemRangeInserted(positionStart, getSourceItemCount() + getItemCountWithLeftSeizeAdapter(0));
     }
 
     @Override
     public void notifyDataSetRangeChanged() {
-        int positionStart = getParentPositionWithoutSelfHeadView(0);
-        parentAdapter.notifyItemRangeChanged(positionStart, getItemCount());
+        int positionStart = getParentPosition(0);
+        parentAdapter.notifyItemRangeChanged(positionStart, getSourceItemCount() + getItemCountWithLeftSeizeAdapter(0));
     }
 }
