@@ -23,16 +23,36 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
 
     @Override
     public void setHeader(View view) {
+        boolean hasHead = headerView != null;
         headerView = view;
         // TODO: 3/29/17 wangjie optim
         typeHeaderDefault = this.hashCode();
+        if (hasHead && headerView != null) {
+            parentAdapter.notifyItemChanged(getParentPositionWithoutSelfHeadView(0));
+        } else if (hasHead) {
+            parentAdapter.notifyItemRemoved(getParentPositionWithoutSelfHeadView(0));
+            notifyDataSetRangeChanged();
+        } else if (headerView != null) {
+            parentAdapter.notifyItemInserted(getParentPositionWithoutSelfHeadView(0));
+            notifyDataSetRangeChanged();
+        }
     }
 
     @Override
     public void setFooter(View view) {
+        boolean hasFooter = footerView != null;
         footerView = view;
         // TODO: 3/29/17 wangjie optim
         typeFooterDefault = this.hashCode() - 1;
+        if (hasFooter && footerView != null) {
+            parentAdapter.notifyItemChanged(getParentPositionWithoutSelfHeadView(getItemCount() - 1));
+        } else if (hasFooter) {
+            parentAdapter.notifyItemRemoved(getParentPositionWithoutSelfHeadView(getItemCount() - 1));
+            notifyDataSetRangeChanged();
+        } else {
+            parentAdapter.notifyItemInserted(getParentPositionWithoutSelfHeadView(getSourceItemCount() + getCount(headerView)));
+            notifyDataSetRangeChanged();
+        }
     }
 
     @Override
@@ -237,13 +257,13 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
 
     @Override
     public void notifyDataSetInsert() {
-        int positionStart = getParentPosition(0);
-        parentAdapter.notifyItemRangeInserted(positionStart, getSourceItemCount() + getItemCountWithLeftSeizeAdapter(0));
+        int positionStart = getParentPositionWithoutSelfHeadView(0);
+        parentAdapter.notifyItemRangeInserted(positionStart, getItemCount() + getItemCountWithLeftSeizeAdapter(0));
     }
 
     @Override
     public void notifyDataSetRangeChanged() {
-        int positionStart = getParentPosition(0);
-        parentAdapter.notifyItemRangeChanged(positionStart, getSourceItemCount() + getItemCountWithLeftSeizeAdapter(0));
+        int positionStart = getParentPositionWithoutSelfHeadView(0);
+        parentAdapter.notifyItemRangeChanged(positionStart, getItemCount() + getItemCountWithLeftSeizeAdapter(0));
     }
 }
