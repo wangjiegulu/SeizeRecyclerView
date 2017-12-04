@@ -23,10 +23,16 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
 
     @Override
     public void setHeader(View view) {
+        if (headerView == view) {
+            return;
+        }
         boolean hasHead = headerView != null;
         headerView = view;
         // TODO: 3/29/17 wangjie optim
         typeHeaderDefault = this.hashCode();
+        if (parentAdapter == null){
+            return;
+        }
         if (hasHead && headerView != null) {
             parentAdapter.notifyItemChanged(getParentPositionWithoutSelfHeadView(0));
         } else if (hasHead) {
@@ -40,10 +46,16 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
 
     @Override
     public void setFooter(View view) {
+        if (footerView == view) {
+            return;
+        }
         boolean hasFooter = footerView != null;
         footerView = view;
         // TODO: 3/29/17 wangjie optim
         typeFooterDefault = this.hashCode() - 1;
+        if (parentAdapter == null){
+            return;
+        }
         if (hasFooter && footerView != null) {
             parentAdapter.notifyItemChanged(getParentPositionWithoutSelfHeadView(getItemCount() - 1));
         } else if (hasFooter) {
@@ -155,11 +167,14 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         return TYPE_DEFAULT;
     }
 
-    private int getParentPosition(int positionStart) {
+    public int getParentPosition(int positionStart) {
         return getParentPositionWithoutSelfHeadView(positionStart) + getCount(headerView);
     }
 
     private int getParentPositionWithoutSelfHeadView(int positionStart) {
+        if (parentAdapter == null) {
+            return 0;
+        }
         int position = (parentAdapter.getHeaderView() == null ? 0 : 1) + positionStart;
         List<SeizeAdapter<BaseViewHolder>> seizeAdapters = parentAdapter.getSeizeAdapters();
         if (seizeAdapters == null) {
@@ -175,6 +190,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     private int getItemCountWithLeftSeizeAdapter(int itemCount) {
+        if (parentAdapter == null) {
+            return 0;
+        }
         itemCount = itemCount + getCount(footerView);
         List<SeizeAdapter<BaseViewHolder>> seizeAdapters = parentAdapter.getSeizeAdapters();
         if (seizeAdapters == null) {
