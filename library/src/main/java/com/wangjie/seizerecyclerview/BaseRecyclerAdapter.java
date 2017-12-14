@@ -28,6 +28,7 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private View footerView;
 
     private FuncR<BaseViewHolder> defaultViewHolderFunc;
+    private RecyclerView recyclerView;
 
     public void setHeader(View view) {
         headerView = view;
@@ -43,6 +44,12 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         for (SeizeAdapter<BaseViewHolder> seizeAdapter : this.seizeAdapters) {
             seizeAdapter.setParentAdapter(this);
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
     }
 
     @Override
@@ -109,6 +116,17 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             seizeAdapters.get(seizePosition.getSeizeAdapterIndex())
                     .onBindViewHolder(holder, seizePosition);
         }
+    }
+
+    public void notifyItem(int position) {
+        if (recyclerView == null) {
+            return;
+        }
+        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+        if (!(viewHolder instanceof BaseViewHolder)) {
+            return;
+        }
+        onBindViewHolder(((BaseViewHolder) viewHolder), position);
     }
 
     @Nullable
