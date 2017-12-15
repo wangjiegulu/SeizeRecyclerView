@@ -118,6 +118,9 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         }
     }
 
+    /**
+     * 刷新某个位置itemView，使用android自带刷新方式，在TV上会有渐变效果，并且自带方法在某些情况导致setText不显示文字
+     */
     public void notifyItem(int position) {
         if (recyclerView == null) {
             return;
