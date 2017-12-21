@@ -151,11 +151,21 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         return 0 != footerCount && subPosition >= getItemCount() - footerCount;
     }
 
+    /**
+     * seizeAdapter中item的位置转换为数据源中的位置，
+     * @param subPosition item的位置
+     * @return sourcePosition
+     */
     @Override
     public int subPositionToSubSourcePosition(int subPosition) {
         return subPosition - getCount(headerView);
     }
 
+    /**
+     * zeizeAdapter中数据源中的位置转换为item的位置，
+     * @param subSourcePosition 数据源中的位置
+     * @return position
+     */
     @Override
     public int subSourcePositionToSubPosition(int subSourcePosition) {
         return subSourcePosition + getCount(headerView);
@@ -214,8 +224,10 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
 
 
     /**
-     * 刷新某个位置itemView，使用android自带刷新方式，在TV上会有渐变效果，并且自带方法在某些情况导致setText不显示文字
+     * 刷新某个位置itemView，使用android自带刷新方式，在TV上会有渐变效果，
+     * 并且自带方法在某些情况导致setText不显示文字
      */
+    @Override
     public void notifyItem(int position) {
         if (parentAdapter != null) {
             parentAdapter.notifyItem(getParentPosition(position));
@@ -229,66 +241,114 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
         }
     }
 
+    /**
+     * 插入指定数量的数据，需要配合notifyDataSetRangeChanged使用
+     * @param positionStart 数据源的位置
+     * @param itemCount 插入数量
+     */
     @Override
     public void notifyItemRangeInserted(int positionStart, int itemCount) {
         int positionParent = getParentPosition(positionStart);
         parentAdapter.notifyItemRangeInserted(positionParent, itemCount);
     }
 
+    /**
+     * 插入指定数量的数据，需要配合notifyDataSetRangeChanged使用
+     * @param position 数据源的位置
+     */
     @Override
     public void notifyItemInserted(int position) {
         int positionParent = getParentPosition(position);
         parentAdapter.notifyItemInserted(positionParent);
     }
 
+    /**
+     * 范围刷新,
+     * @param positionStart 数据源位置，数量
+     * @param itemCount 刷新的数量
+     */
     @Override
     public void notifyItemRangeChanged(int positionStart, int itemCount) {
         int positionParent = getParentPosition(positionStart);
         parentAdapter.notifyItemRangeChanged(positionParent, itemCount);
     }
 
+    /**
+     * 范围刷新,
+     * @param positionStart 数据源位置，数量
+     * @param itemCount 刷新的数量
+     */
     @Override
     public void notifyItemRangeChanged(int positionStart, int itemCount, Object payload) {
         int positionParent = getParentPosition(positionStart);
         parentAdapter.notifyItemRangeChanged(positionParent, itemCount, payload);
     }
 
+    /**
+     * 单个刷新，see notifyItem
+     * @param position 位置
+     */
     @Override
     public void notifyItemChanged(int position) {
         int positionParent = getParentPosition(position);
         parentAdapter.notifyItemChanged(positionParent);
     }
 
+    /**
+     * 单个刷新，see notifyItem
+     * @param position 位置
+     */
     @Override
-    public void notifyItemChanged(int positionStart, Object payload) {
-        int positionParent = getParentPosition(positionStart);
+    public void notifyItemChanged(int position, Object payload) {
+        int positionParent = getParentPosition(position);
         parentAdapter.notifyItemChanged(positionParent, payload);
     }
 
+    /**
+     * 移动刷新
+     * @param fromPosition 移动开始位置
+     * @param toPosition 移动结束位置
+     */
     @Override
     public void notifyItemMoved(int fromPosition, int toPosition) {
         int positionParent = getParentPosition(fromPosition);
         parentAdapter.notifyItemMoved(positionParent, getParentPosition(toPosition));
     }
 
+    /**
+     * 范围删除，需配合notifyDataSetRangeChanged使用
+     * @param positionStart 开始位置
+     * @param itemCount 数量
+     */
     @Override
     public void notifyItemRangeRemoved(int positionStart, int itemCount) {
         int positionParent = getParentPosition(positionStart);
         parentAdapter.notifyItemRangeRemoved(positionParent, itemCount);
     }
 
+    /**
+     * 单个移除，需配合notifyDataSetRangeChanged使用
+     * @param position 数据源位置
+     */
     @Override
     public void notifyItemRemoved(int position) {
         int positionParent = getParentPosition(position);
         parentAdapter.notifyItemRemoved(positionParent);
     }
 
+    /**
+     * 该方法不合理
+     */
+    @Deprecated
     @Override
     public void notifyDataSetInsert() {
         int positionStart = getParentPositionWithoutSelfHeadView(0);
         parentAdapter.notifyItemRangeInserted(positionStart, getItemCount() + getItemCountWithLeftSeizeAdapter(0));
     }
 
+    /**
+     * 从当前seizeAdapter刷新到parentAdapter结束位置
+     */
     @Override
     public void notifyDataSetRangeChanged() {
         int positionStart = getParentPositionWithoutSelfHeadView(0);

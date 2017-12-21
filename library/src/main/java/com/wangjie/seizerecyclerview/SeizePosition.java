@@ -7,11 +7,30 @@ import java.io.Serializable;
  * Email: tiantian.china.2@gmail.com
  * Date: 3/28/17.
  */
-public class SeizePosition implements Serializable{
+public class SeizePosition implements Serializable {
+
+    /**
+     * seizeAdapter在parentAdapter中的索引，从上往下，从左往右。
+     */
     private int seizeAdapterIndex;
+    /**
+     * recyclerview 中item的位置索引
+     */
     private int position;
+    /**
+     * parentAdapter中不包含parentAdapter的headerView ，footerView的位置索引，
+     * 即parentAdapter数据源的索引
+     */
     private int sourcePosition;
+    /**
+     * seizeAdapter中包含headerView，footerView的位置索引，
+     * 即seizeAdapter的第一个headerView在当前seizePosition中的该值为0
+     */
     private int subPosition;
+    /**
+     * seizeAdapter中不包含headerView，footerView的位置索引，
+     * 即seizeAdapter的第一个数据源item在当前seizePosition中的该值为0
+     */
     private int subSourcePosition;
 
     public SeizePosition(int seizeAdapterIndex, int position, int sourcePosition, int subPosition, int subSourcePosition) {

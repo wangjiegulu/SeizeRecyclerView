@@ -4,6 +4,10 @@
 
 <img src='screenshot/basic.gif' height='500px'/> <img src='screenshot/multi_type.gif' height='500px'/>
 
+## construction about seizePosition
+
+<img src='screenshot/basic_construction.png' height='800px'/>
+
 ## How to use
 
 ```java

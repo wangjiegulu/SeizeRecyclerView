@@ -39,6 +39,8 @@ public interface SeizeAdapter<VH extends RecyclerView.ViewHolder> {
 
     int subSourcePositionToSubPosition(int subSourcePosition);
 
+    void notifyItem(int position);
+
     /**
      * parentAdapter刷新
      */

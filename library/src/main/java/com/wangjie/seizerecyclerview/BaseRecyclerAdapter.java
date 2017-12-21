@@ -90,7 +90,7 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             return TYPE_FOOTER_VIEW;
         } else {
             SeizePosition seizePosition = convertSeizePosition(position);
-            if (null != seizePosition) {
+            if (null != seizePosition && seizePosition.getSeizeAdapterIndex() >= 0) {
                 return seizeAdapters.get(seizePosition.getSeizeAdapterIndex())
                         .getItemViewType(seizePosition);
             }
@@ -112,14 +112,15 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public final void onBindViewHolder(BaseViewHolder holder, int position) {
         SeizePosition seizePosition = convertSeizePosition(position);
-        if (null != seizePosition) {
+        if (null != seizePosition && seizePosition.getSeizeAdapterIndex() >= 0) {
             seizeAdapters.get(seizePosition.getSeizeAdapterIndex())
                     .onBindViewHolder(holder, seizePosition);
         }
     }
 
     /**
-     * 刷新某个位置itemView，使用android自带刷新方式，在TV上会有渐变效果，并且自带方法在某些情况导致setText不显示文字
+     * 刷新某个位置itemView，使用android自带刷新方式，在TV上会有渐变效果，
+     * 并且自带方法在某些情况导致setText不显示文字
      */
     public void notifyItem(int position) {
         if (recyclerView == null) {
@@ -135,7 +136,7 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Nullable
     public final SeizeAdapter<BaseViewHolder> getSeizeAdapter(int position) {
         SeizePosition seizePosition = convertSeizePosition(position);
-        if (null != seizePosition) {
+        if (null != seizePosition && seizePosition.getSeizeAdapterIndex() >= 0) {
             return seizeAdapters.get(seizePosition.getSeizeAdapterIndex());
         }
         return null;
@@ -151,21 +152,37 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return headerView;
     }
 
+    /**
+     * 给定parentAdapter中的position位置，返回一个seizeAdapter
+     *
+     * @param position parentAdapter中item的位置，包含headerView，footerView
+     * @return seizePosition
+     */
     @Nullable
     public final SeizePosition convertSeizePosition(int position) {
         if (null != seizeAdapters) {
-            int seizeLastPosition = getCount(headerView);
+            int seizeLastCount = getCount(headerView);
+            //属于headerView
+            if (position < seizeLastCount) {
+                return new SeizePosition(-1,
+                        position, -1, -1, -1);
+            }
             for (int i = 0, len = seizeAdapters.size(); i < len; i++) {
                 SeizeAdapter seizeAdapter = seizeAdapters.get(i);
                 int count = seizeAdapter.getItemCount();
-                seizeLastPosition += count;
-                if (seizeLastPosition > position) {
-                    int subPosition = count - (seizeLastPosition - position);
+                seizeLastCount += count;
+                if (seizeLastCount > position) {
+                    int subPosition = count - (seizeLastCount - position);
                     return new SeizePosition(i,
                             position, positionToSourcePosition(position),
                             subPosition, seizeAdapter.subPositionToSubSourcePosition(subPosition)
                     );
                 }
+            }
+            //属于parentAdapter的footerView
+            if (position > getItemCount() - 1 - getCount(footerView)) {
+                return new SeizePosition(-1,
+                        position, -1, -1, -1);
             }
         }
         return null;
@@ -193,10 +210,22 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return null == view ? 0 : 1;
     }
 
+    /**
+     * parentAdapter中item的位置转换为数据源中的位置，
+     *
+     * @param position item的位置
+     * @return sourcePosition
+     */
     public final int positionToSourcePosition(int position) {
         return position - getCount(headerView);
     }
 
+    /**
+     * parentAdapter中数据源中的位置转换为item的位置，
+     *
+     * @param sourcePosition 数据源中的位置
+     * @return position
+     */
     public final int sourcePositionToPosition(int sourcePosition) {
         return sourcePosition + getCount(headerView);
     }

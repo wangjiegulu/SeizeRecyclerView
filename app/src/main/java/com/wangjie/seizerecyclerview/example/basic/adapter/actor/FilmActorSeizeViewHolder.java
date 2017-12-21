@@ -37,6 +37,7 @@ public class FilmActorSeizeViewHolder extends BaseViewHolder {
     public void onBindViewHolder(BaseViewHolder holder, SeizePosition seizePosition) {
         int subSourcePosition = seizePosition.getSubSourcePosition();
         int seizeAdapterIndex = seizePosition.getSeizeAdapterIndex();
-        actorTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + seizeAdapter.getList().get(subSourcePosition).getObj());
+        actorTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + "actor___content");
+//        actorTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + seizeAdapter.getList().get(subSourcePosition).getObj());
     }
 }

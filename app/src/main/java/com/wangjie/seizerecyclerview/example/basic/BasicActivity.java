@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wangjie.seizerecyclerview.SeizePosition;
@@ -108,6 +110,26 @@ public class BasicActivity extends AppCompatActivity implements
         filmCommentSeizeAdapter.notifyItemRangeChanged(size, list.size());
 //        filmCommentSeizeAdapter.addList(list);
 //        filmCommentSeizeAdapter.notifyDataSetChanged();
+    }
+
+    public void convertPosition(View view) {
+        int childCount = feedRv.getChildCount();
+        for (int position = 0; position < childCount; position++) {
+            View childAt = feedRv.getChildAt(position);
+            if (childAt instanceof TextView && !(position + "").equals(childAt.getTag())) {
+                childAt.setTag(position + "");
+                SeizePosition seizePosition = adapter.convertSeizePosition(position);
+                Log.d("BasicActivity", "seizePosition == null:" + (seizePosition == null));
+                if (seizePosition == null) {
+                    continue;
+                }
+                ((TextView) childAt).append("  " + "seizeAdapterIndex:" + seizePosition.getSeizeAdapterIndex()
+                        + "  " + "position:" + seizePosition.getPosition()
+                        + "  " + "sourcePosition:" + seizePosition.getSourcePosition()
+                        + "  " + "subPosition:" + seizePosition.getSubPosition()
+                        + "  " + "subSourcePosition:" + seizePosition.getSubSourcePosition());
+            }
+        }
     }
 
     @Override

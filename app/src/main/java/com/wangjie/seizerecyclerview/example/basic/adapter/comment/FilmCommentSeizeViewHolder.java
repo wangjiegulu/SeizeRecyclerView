@@ -35,6 +35,6 @@ public class FilmCommentSeizeViewHolder extends BaseViewHolder {
     public void onBindViewHolder(BaseViewHolder holder, SeizePosition seizePosition) {
         int subSourcePosition = seizePosition.getSubSourcePosition();
         int seizeAdapterIndex = seizePosition.getSeizeAdapterIndex();
-        commentTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + seizeAdapter.getList().get(subSourcePosition).getObj());
+        commentTv.setText(seizeAdapterIndex + ", " + subSourcePosition + " / " + "comment_content");
     }
 }
