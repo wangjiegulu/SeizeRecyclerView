@@ -152,8 +152,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * seizeAdapter中item的位置转换为数据源中的位置，
-     * @param subPosition item的位置
+     * item position in seizeAdapter to position in data
+     *
+     * @param subPosition item position
      * @return sourcePosition
      */
     @Override
@@ -162,8 +163,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * zeizeAdapter中数据源中的位置转换为item的位置，
-     * @param subSourcePosition 数据源中的位置
+     * item position in data to position in seizeAdapter
+     *
+     * @param subSourcePosition item position in data
      * @return position
      */
     @Override
@@ -224,8 +226,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
 
 
     /**
-     * 刷新某个位置itemView，使用android自带刷新方式，在TV上会有渐变效果，
-     * 并且自带方法在某些情况导致setText不显示文字
+     * notify an itemView,some bugs with origin method
      */
     @Override
     public void notifyItem(int position) {
@@ -242,9 +243,10 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 插入指定数量的数据，需要配合notifyDataSetRangeChanged使用
-     * @param positionStart 数据源的位置
-     * @param itemCount 插入数量
+     * insert some data,used with notifyDataSetRangeChanged
+     *
+     * @param positionStart positionStart
+     * @param itemCount     itemCount
      */
     @Override
     public void notifyItemRangeInserted(int positionStart, int itemCount) {
@@ -253,8 +255,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 插入指定数量的数据，需要配合notifyDataSetRangeChanged使用
-     * @param position 数据源的位置
+     * insert a data,used with notifyDataSetRangeChanged
+     *
+     * @param position position
      */
     @Override
     public void notifyItemInserted(int position) {
@@ -263,9 +266,10 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 范围刷新,
-     * @param positionStart 数据源位置，数量
-     * @param itemCount 刷新的数量
+     * notify range,
+     *
+     * @param positionStart positionStart
+     * @param itemCount     itemCount
      */
     @Override
     public void notifyItemRangeChanged(int positionStart, int itemCount) {
@@ -274,9 +278,10 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 范围刷新,
-     * @param positionStart 数据源位置，数量
-     * @param itemCount 刷新的数量
+     * notify range,
+     *
+     * @param positionStart positionStart
+     * @param itemCount     itemCount
      */
     @Override
     public void notifyItemRangeChanged(int positionStart, int itemCount, Object payload) {
@@ -285,8 +290,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 单个刷新，see notifyItem
-     * @param position 位置
+     * notify an item，see notifyItem
+     *
+     * @param position position
      */
     @Override
     public void notifyItemChanged(int position) {
@@ -295,8 +301,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 单个刷新，see notifyItem
-     * @param position 位置
+     * notify an item,see notifyItem
+     *
+     * @param position position
      */
     @Override
     public void notifyItemChanged(int position, Object payload) {
@@ -305,9 +312,10 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 移动刷新
-     * @param fromPosition 移动开始位置
-     * @param toPosition 移动结束位置
+     * move
+     *
+     * @param fromPosition position from
+     * @param toPosition   position to
      */
     @Override
     public void notifyItemMoved(int fromPosition, int toPosition) {
@@ -316,9 +324,10 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 范围删除，需配合notifyDataSetRangeChanged使用
-     * @param positionStart 开始位置
-     * @param itemCount 数量
+     * remove a range ,used with notifyDataSetRangeChanged
+     *
+     * @param positionStart position start
+     * @param itemCount     count
      */
     @Override
     public void notifyItemRangeRemoved(int positionStart, int itemCount) {
@@ -327,8 +336,9 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 单个移除，需配合notifyDataSetRangeChanged使用
-     * @param position 数据源位置
+     * remove an item ,used with notifyDataSetRangeChanged
+     *
+     * @param position position in data
      */
     @Override
     public void notifyItemRemoved(int position) {
@@ -337,7 +347,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 该方法不合理
+     * there is some bugs
      */
     @Deprecated
     @Override
@@ -347,7 +357,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
     }
 
     /**
-     * 从当前seizeAdapter刷新到parentAdapter结束位置
+     * start from current seizeAdapter to end of parentAdapter
      */
     @Override
     public void notifyDataSetRangeChanged() {

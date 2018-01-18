@@ -119,8 +119,7 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     /**
-     * 刷新某个位置itemView，使用android自带刷新方式，在TV上会有渐变效果，
-     * 并且自带方法在某些情况导致setText不显示文字
+     * notify an itemView,some bugs with origin method
      */
     public void notifyItem(int position) {
         if (recyclerView == null) {
@@ -152,12 +151,6 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return headerView;
     }
 
-    /**
-     * 给定parentAdapter中的position位置，返回一个seizeAdapter
-     *
-     * @param position parentAdapter中item的位置，包含headerView，footerView
-     * @return seizePosition
-     */
     @Nullable
     public final SeizePosition convertSeizePosition(int position) {
         if (null != seizeAdapters) {
@@ -211,9 +204,9 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     /**
-     * parentAdapter中item的位置转换为数据源中的位置，
+     * item position in parentAdapter to position in data
      *
-     * @param position item的位置
+     * @param position item position
      * @return sourcePosition
      */
     public final int positionToSourcePosition(int position) {
@@ -221,9 +214,9 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     /**
-     * parentAdapter中数据源中的位置转换为item的位置，
+     * item position in data to position in parentAdapter
      *
-     * @param sourcePosition 数据源中的位置
+     * @param sourcePosition item position in data
      * @return position
      */
     public final int sourcePositionToPosition(int sourcePosition) {

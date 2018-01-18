@@ -6,7 +6,7 @@
 
 ## construction about seizePosition
 
-<img src='screenshot/basic_construction.png' height='800px'/>
+<img src='screenshot/basic_construction.png' height='700px'/>
 
 ## How to use
 

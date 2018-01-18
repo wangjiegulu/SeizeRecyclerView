@@ -10,26 +10,26 @@ import java.io.Serializable;
 public class SeizePosition implements Serializable {
 
     /**
-     * seizeAdapter在parentAdapter中的索引，从上往下，从左往右。
+     * index of seizeAdapter in parentAdapter,from top to bottom ,from left to right
      */
     private int seizeAdapterIndex;
     /**
-     * recyclerview 中item的位置索引
+     * position of item in recyclerview
      */
     private int position;
     /**
-     * parentAdapter中不包含parentAdapter的headerView ，footerView的位置索引，
-     * 即parentAdapter数据源的索引
+     * position in parentAdapter not include headerView or footerView
+     * just is a data position in parentAdapter
      */
     private int sourcePosition;
     /**
-     * seizeAdapter中包含headerView，footerView的位置索引，
-     * 即seizeAdapter的第一个headerView在当前seizePosition中的该值为0
+     * item position in seizeAdapter ,include headerView,footerView in seizeAdapter
+     * this value of headerView is 0 if seizeAdapter has a headerView
      */
     private int subPosition;
     /**
-     * seizeAdapter中不包含headerView，footerView的位置索引，
-     * 即seizeAdapter的第一个数据源item在当前seizePosition中的该值为0
+     * item position in seizeAdapter ,not include headerView,footerView in seizeAdapter
+     * this value of data is 0 ,weather a seizeAdapter has a headerView
      */
     private int subSourcePosition;
 

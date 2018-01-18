@@ -81,7 +81,7 @@ public class MultiSeizeAdapter<T> extends BaseSeizeAdapter {
     }
 
     /**
-     * ViewHolderOwner与RecyclerView周期绑定
+     * ViewHolderOwner bind with RecyclerView
      */
     public void attachToRecyclerView(RecyclerView recyclerView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {

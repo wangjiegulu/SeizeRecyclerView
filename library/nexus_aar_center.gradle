@@ -3,6 +3,12 @@
 apply plugin: 'maven'
 apply plugin: 'signing' //使用signing plugin做数字签名
 
+//tasks.withType(Javadoc) {
+//    options.addStringOption('Xdoclint:none', '-quiet')
+//    options.addStringOption('encoding', 'UTF-8')
+//    options.addStringOption('charSet', 'UTF-8')
+//}
+
 //定义GroupID和Version，ArtefactID会自动使用Project名
 group = "$archiveGroup"
 version = "$archiveVersion"
