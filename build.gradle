@@ -25,6 +25,11 @@ allprojects {
         global_junitVersion = '4.12'
         global_espressoVersion = '2.2.2'
     }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.addStringOption('charSet', 'UTF-8')
+    }
 }
 
 task clean(type: Delete) {
