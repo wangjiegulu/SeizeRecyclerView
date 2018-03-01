@@ -72,12 +72,12 @@ public class MultiSeizeAdapter<T> extends BaseSeizeAdapter {
 
     @Override
     public T getItem(int subSourcePosition) {
-        return list.get(subSourcePosition);
+        return (list != null && subSourcePosition < list.size()) ? list.get(subSourcePosition) : null;
     }
 
     @Override
     public int getSourceItemCount() {
-        return list.size();
+        return list != null ? list.size() : 0;
     }
 
     /**
