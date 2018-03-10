@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wangjie.seizerecyclerview.annotation.Beta;
+
 import java.util.List;
 
 /**
@@ -284,6 +286,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
      * @param itemCount     itemCount
      */
     @Override
+    @Beta
     public void notifyItemRangeChanged(int positionStart, int itemCount, Object payload) {
         int positionParent = getParentPosition(positionStart);
         parentAdapter.notifyItemRangeChanged(positionParent, itemCount, payload);
@@ -306,6 +309,7 @@ public abstract class BaseSeizeAdapter implements SeizeAdapter<BaseViewHolder> {
      * @param position position
      */
     @Override
+    @Beta
     public void notifyItemChanged(int position, Object payload) {
         int positionParent = getParentPosition(position);
         parentAdapter.notifyItemChanged(positionParent, payload);
