@@ -1,6 +1,7 @@
 package com.wangjie.seizerecyclerview.attacher;
 
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -71,6 +72,7 @@ public class MultiSeizeAdapter<T> extends BaseSeizeAdapter {
     }
 
     @Override
+    @Nullable
     public T getItem(int subSourcePosition) {
         return (list != null && subSourcePosition < list.size()) ? list.get(subSourcePosition) : null;
     }
