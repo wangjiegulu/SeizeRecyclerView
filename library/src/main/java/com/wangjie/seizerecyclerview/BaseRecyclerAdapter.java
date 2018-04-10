@@ -182,9 +182,24 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Nullable
-    public final SeizePosition convertSeizePosition(int seizeAdapterIndex, int subPosition) {
-        // TODO: 3/28/17 wangjie impl
-        throw new RuntimeException("Not supported!");
+    public final SeizePosition convertSeizePosition(BaseSeizeAdapter baseSeizeAdapter, int subPosition) {
+        if (seizeAdapters == null) {
+            return null;
+        }
+        int position = getCount(headerView);
+        for (int i = 0; i < seizeAdapters.size(); i++) {
+            SeizeAdapter<BaseViewHolder> seizeAdapter = seizeAdapters.get(i);
+            if (seizeAdapter == baseSeizeAdapter) {
+                position = position + subPosition;
+                return new SeizePosition(i,
+                        position,
+                        positionToSourcePosition(position),
+                        subPosition,
+                        seizeAdapter.subPositionToSubSourcePosition(subPosition));
+            }
+            position += seizeAdapter.getItemCount();
+        }
+        return null;
     }
 
     @Override
